@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DragonX AI-DLC Blueprint</title>
+<meta name="description" content="DragonX AI-DLC Blueprint — operating manual and onboarding hub" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  if (window.tailwind) tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'] },
+        colors: {
+          brand: { 50:'#eef4ff',100:'#dbe6ff',200:'#bfd2ff',300:'#93b4fd',400:'#6090fa',500:'#3b6ef5',600:'#2552e0',700:'#1d40b8',800:'#1c3793',900:'#0f1f4d' },
+          dragon: { 500:'#d4252f', 600:'#b81d27' }
+        }
+      }
+    }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  body { background:#f6f8fc; color:#0f172a; }
+  .mermaid-box svg { max-width: 100% !important; height: auto !important; }
+  .mermaid-box { overflow-x: auto; }
+  /* Labels are sized before web fonts finish loading; never clip them */
+  .mermaid-box foreignObject { overflow: visible; }
+  #mmd-lifecycle svg { min-width: 760px; }
+  #mmd-status svg { max-width: 460px !important; margin: 0 auto; display: block; }
+  .nav-link.active { color:#1d40b8; background:#eef4ff; }
+  .chip.active { background:#1d40b8; color:#fff; border-color:#1d40b8; }
+  .role-tab.active { background:#1d40b8; color:#fff; border-color:#1d40b8; box-shadow:0 6px 16px -6px rgba(29,64,184,.5); }
+  .phase-tab.active { background:#0f1f4d; color:#fff; border-color:#0f1f4d; }
+  .faq-item[open] summary .chev { transform: rotate(180deg); }
+  .faq-item summary::-webkit-details-marker { display:none; }
+  .chev { transition: transform .2s ease; }
+  .fade-in { animation: fade .25s ease; }
+  @keyframes fade { from { opacity:0; transform: translateY(4px);} to { opacity:1; transform:none;} }
+  mark { background:#fde68a; padding:0 2px; border-radius:2px; }
+  .scrollbar-none::-webkit-scrollbar { display:none; }
+  .scrollbar-none { scrollbar-width:none; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85em; background:#eef2f7; padding:1px 5px; border-radius:4px; color:#1e293b; }
+  table th { text-align:left; }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-4">
+    <a href="#top" class="flex items-center gap-2 shrink-0">
+      <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-dragon-500 to-brand-700 text-white grid place-items-center font-extrabold">DX</span>
+      <span class="font-bold text-slate-900 hidden sm:block">DragonX <span class="text-brand-700">AI-DLC</span></span>
+    </a>
+    <nav class="flex-1 overflow-x-auto scrollbar-none">
+      <ul class="flex items-center gap-1 text-sm font-medium text-slate-600 whitespace-nowrap" id="navList">
+        <li><a class="nav-link px-3 py-2 rounded-md hover:bg-slate-100" href="#overview" data-i18n="nav.overview"></a></li>
+        <li><a class="nav-link px-3 py-2 rounded-md hover:bg-slate-100" href="#framework" data-i18n="nav.framework"></a></li>
+        <li><a class="nav-link px-3 py-2 rounded-md hover:bg-slate-100" href="#roles" data-i18n="nav.roles"></a></li>
+        <li><a class="nav-link px-3 py-2 rounded-md hover:bg-slate-100" href="#glossary" data-i18n="nav.glossary"></a></li>
+        <li><a class="nav-link px-3 py-2 rounded-md hover:bg-slate-100" href="#faq" data-i18n="nav.faq"></a></li>
+      </ul>
+    </nav>
+    <div class="flex items-center rounded-lg border border-slate-300 p-0.5 text-xs font-semibold shrink-0" role="group" aria-label="Language">
+      <button id="btn-vi" class="lang-btn px-3 py-1.5 rounded-md" onclick="setLang('vi')">VI</button>
+      <button id="btn-en" class="lang-btn px-3 py-1.5 rounded-md" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 sm:py-20 grid lg:grid-cols-5 gap-10 items-center">
+    <div class="lg:col-span-3">
+      <p class="text-brand-200 text-sm font-semibold tracking-wider uppercase" data-i18n="hero.kicker"></p>
+      <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight">DragonX AI-DLC Blueprint</h1>
+      <p class="mt-4 text-lg text-brand-100 leading-relaxed" data-i18n="hero.subtitle"></p>
+      <div class="mt-6 flex flex-wrap gap-2 text-xs font-semibold">
+        <span class="px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 ring-1 ring-emerald-300/40" data-i18n="hero.b1"></span>
+        <span class="px-3 py-1 rounded-full bg-sky-400/20 text-sky-100 ring-1 ring-sky-300/40" data-i18n="hero.b2"></span>
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20">AI-DLC Workflows 2.0</span>
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20">Azure DevOps</span>
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20">Contract-first</span>
+        <span class="px-3 py-1 rounded-full bg-white/10 ring-1 ring-white/20">Gates G1–G5 + G3.5</span>
+        <span class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-200 ring-1 ring-amber-300/40">v1.3.1</span>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#roles" class="px-5 py-2.5 rounded-lg bg-white text-brand-800 font-semibold hover:bg-brand-50" data-i18n="hero.cta1"></a>
+        <a href="#overview" class="px-5 py-2.5 rounded-lg ring-1 ring-white/40 font-semibold hover:bg-white/10" data-i18n="hero.cta2"></a>
+      </div>
+    </div>
+    <div class="lg:col-span-2 grid grid-cols-2 gap-3" id="heroStats"></div>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6">
+
+<!-- ================= SECTION 1: OVERVIEW ================= -->
+<section id="overview" class="py-16 border-b border-slate-200">
+  <p class="text-sm font-semibold text-brand-700" data-i18n="s1.kicker"></p>
+  <h2 class="mt-1 text-3xl font-bold" data-i18n="s1.title"></h2>
+  <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed" data-i18n="s1.lead"></p>
+
+  <div class="mt-8 grid md:grid-cols-2 lg:grid-cols-4 gap-4" id="principles"></div>
+
+  <div class="mt-10 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h3 class="text-lg font-semibold" data-i18n="s1.diagram1"></h3>
+      <span class="text-xs text-slate-500" data-i18n="s1.diagram1note"></span>
+    </div>
+    <div class="mermaid-box mt-4" id="mmd-lifecycle"></div>
+  </div>
+
+  <div class="mt-10 grid md:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch" id="phaseCards"></div>
+
+  <div class="mt-10 grid lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7">
+      <h3 class="text-lg font-semibold" data-i18n="s1.diagram2"></h3>
+      <p class="text-sm text-slate-500 mt-1" data-i18n="s1.diagram2note"></p>
+      <div class="mermaid-box mt-4" id="mmd-repos"></div>
+    </div>
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7">
+      <h3 class="text-lg font-semibold" data-i18n="s1.diagram3"></h3>
+      <p class="text-sm text-slate-500 mt-1" data-i18n="s1.diagram3note"></p>
+      <div class="mermaid-box mt-4" id="mmd-status"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 2: FRAMEWORK ================= -->
+<section id="framework" class="py-16 border-b border-slate-200">
+  <p class="text-sm font-semibold text-brand-700" data-i18n="s2.kicker"></p>
+  <h2 class="mt-1 text-3xl font-bold" data-i18n="s2.title"></h2>
+  <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed" data-i18n="s2.lead"></p>
+
+  <div class="mt-8 flex flex-wrap gap-2" id="phaseTabs"></div>
+  <div class="mt-5" id="phaseDetail"></div>
+
+  <div class="mt-12 grid lg:grid-cols-5 gap-6">
+    <div class="lg:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 overflow-x-auto">
+      <h3 class="text-lg font-semibold" data-i18n="s2.gatesTitle"></h3>
+      <table class="mt-4 w-full text-sm">
+        <thead class="text-slate-500 border-b border-slate-200">
+          <tr><th class="py-2 pr-3" data-i18n="t.gate"></th><th class="py-2 pr-3" data-i18n="t.when"></th><th class="py-2 pr-3" data-i18n="t.approver"></th><th class="py-2" data-i18n="t.criteria"></th></tr>
+        </thead>
+        <tbody id="gatesBody" class="divide-y divide-slate-100"></tbody>
+      </table>
+      <p class="mt-4 text-sm text-slate-600 bg-amber-50 border border-amber-200 rounded-lg p-3" data-i18n="s2.gateNote"></p>
+    </div>
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7">
+      <h3 class="text-lg font-semibold" data-i18n="s2.tierTitle"></h3>
+      <div class="mt-4 space-y-3" id="tiers"></div>
+      <p class="mt-4 text-xs text-slate-500" data-i18n="s2.tierNote"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECTION 3: ROLES ================= -->
+<section id="roles" class="py-16 border-b border-slate-200">
+  <p class="text-sm font-semibold text-brand-700" data-i18n="s3.kicker"></p>
+  <h2 class="mt-1 text-3xl font-bold" data-i18n="s3.title"></h2>
+  <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed" data-i18n="s3.lead"></p>
+
+  <div class="mt-8 flex flex-wrap gap-2" id="roleTabs" role="tablist"></div>
+  <div class="mt-5" id="roleDetail"></div>
+
+  <div class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7" id="devTeam"></div>
+
+  <div class="mt-12 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-7 overflow-x-auto">
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h3 class="text-lg font-semibold" data-i18n="s3.raciTitle"></h3>
+      <span class="text-xs text-slate-500" data-i18n="s3.raciLegend"></span>
+    </div>
+    <table class="mt-4 w-full text-sm min-w-[760px]">
+      <thead class="text-slate-500 border-b border-slate-200" id="raciHead"></thead>
+      <tbody id="raciBody" class="divide-y divide-slate-100"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= SECTION 4: GLOSSARY ================= -->
+<section id="glossary" class="py-16 border-b border-slate-200">
+  <p class="text-sm font-semibold text-brand-700" data-i18n="s4.kicker"></p>
+  <h2 class="mt-1 text-3xl font-bold" data-i18n="s4.title"></h2>
+  <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed" data-i18n="s4.lead"></p>
+
+  <div class="mt-8 flex flex-col lg:flex-row gap-3 lg:items-center">
+    <div class="relative flex-1 max-w-xl">
+      <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="glossSearch" type="search" class="w-full pl-9 pr-3 py-2.5 rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500" />
+    </div>
+    <div class="flex flex-wrap gap-2" id="glossChips"></div>
+  </div>
+  <p class="mt-3 text-sm text-slate-500" id="glossCount"></p>
+  <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="glossGrid"></div>
+</section>
+
+<!-- ================= SECTION 5: FAQ ================= -->
+<section id="faq" class="py-16">
+  <p class="text-sm font-semibold text-brand-700" data-i18n="s5.kicker"></p>
+  <h2 class="mt-1 text-3xl font-bold" data-i18n="s5.title"></h2>
+  <p class="mt-3 text-slate-600 max-w-3xl leading-relaxed" data-i18n="s5.lead"></p>
+
+  <div class="mt-8 flex flex-col lg:flex-row gap-3 lg:items-center">
+    <div class="relative flex-1 max-w-xl">
+      <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="faqSearch" type="search" class="w-full pl-9 pr-3 py-2.5 rounded-lg border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-brand-500" />
+    </div>
+    <div class="flex flex-wrap gap-2" id="faqChips"></div>
+  </div>
+  <p class="mt-3 text-sm text-slate-500" id="faqCount"></p>
+  <div class="mt-4 space-y-3" id="faqList"></div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-brand-900 text-brand-100 mt-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid md:grid-cols-3 gap-10">
+    <div>
+      <div class="flex items-center gap-2">
+        <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-dragon-500 to-brand-600 text-white grid place-items-center font-extrabold">DX</span>
+        <span class="font-bold text-white">DragonX AI-DLC Blueprint</span>
+      </div>
+      <p class="mt-3 text-sm leading-relaxed" data-i18n="f.about"></p>
+      <span class="inline-block mt-4 px-2.5 py-1 rounded-md bg-white/10 text-xs font-mono text-white">v1.3.1</span>
+    </div>
+    <div>
+      <h4 class="text-white font-semibold" data-i18n="f.contacts"></h4>
+      <ul class="mt-3 space-y-2 text-sm" id="contacts"></ul>
+    </div>
+    <div>
+      <h4 class="text-white font-semibold" data-i18n="f.links"></h4>
+      <ul class="mt-3 space-y-2 text-sm" id="links"></ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row gap-2 justify-between text-xs text-brand-200">
+      <span id="lastUpdated"></span>
+      <span data-i18n="f.internal"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   CONFIG
+   ===================================================================== */
+const VERSION = 'v1.3.1';
+const LAST_UPDATED_ISO = '2026-10-08T17:40:00+07:00';
+let LANG = 'vi';
+try { const saved = localStorage.getItem('dx-aidlc-lang'); if (saved === 'en' || saved === 'vi') LANG = saved; } catch (e) {}
+
+/* =====================================================================
+   STATIC UI STRINGS
+   ===================================================================== */
+const UI = {
+  'nav.overview': { vi: 'Tổng quan', en: 'Overview' },
+  'nav.framework': { vi: 'Khung vận hành', en: 'Framework' },
+  'nav.roles': { vi: 'Vai trò', en: 'Roles' },
+  'nav.glossary': { vi: 'Thuật ngữ', en: 'Glossary' },
+  'nav.faq': { vi: 'Hỏi đáp', en: 'FAQ' },
+
+  'hero.kicker': { vi: 'Sổ tay vận hành & onboarding nội bộ', en: 'Internal operating manual & onboarding hub' },
+  'hero.subtitle': { vi: 'Cách DragonX phát triển phần mềm với AI làm trung tâm: AI soạn nháp ở mọi bước, con người duyệt tại các cổng đã định trước. Mobile, web và các microservice backend chạy chung một vòng đời, trên Azure DevOps. DragonX 3.0 là dự án xây mới (greenfield).', en: 'How DragonX builds software with AI at the centre: AI drafts at every step, humans approve at predefined gates. Mobile, web and backend microservices share one lifecycle, on Azure DevOps. DragonX 3.0 is a new build (greenfield).' },
+  'hero.b1': { vi: '● Thí điểm', en: '● Pilot' },
+  'hero.b2': { vi: 'Greenfield · xây mới', en: 'Greenfield · new build' },
+  'hero.cta1': { vi: 'Bắt đầu theo vai trò', en: 'Start by role' },
+  'hero.cta2': { vi: 'Xem vòng đời', en: 'See the lifecycle' },
+
+  's1.kicker': { vi: 'Phần 1', en: 'Section 1' },
+  's1.title': { vi: 'Tổng quan AI-DLC & pipeline', en: 'AI-DLC overview & pipeline' },
+  's1.lead': { vi: 'AI-DLC (AI-Driven Development Lifecycle) coi AI là trung tâm của cả vòng đời, không chỉ là công cụ gợi ý code. Công việc chạy theo Bolt — chu kỳ ngắn từ vài giờ đến 1–2 ngày — thay cho sprint dài. Mỗi tính năng là một intent, đi qua 5 phase và các cổng duyệt.', en: 'AI-DLC (AI-Driven Development Lifecycle) puts AI at the centre of the whole lifecycle, not just as a code-completion tool. Work runs in Bolts — short cycles of hours to 1–2 days — instead of long sprints. Each feature is an intent that passes through 5 phases and approval gates.' },
+  's1.diagram1': { vi: 'Vòng đời AI-DLC và các cổng duyệt DragonX', en: 'AI-DLC lifecycle and DragonX gates' },
+  's1.diagram1note': { vi: 'VG = verification gate tự động của AI-DLC · G = cổng duyệt của người · Vòng phản hồi: 4.7 → Ideation; contract sai → quay lại G2', en: 'VG = AI-DLC automated verification gate · G = human approval gate · Loops: 4.7 → Ideation; wrong contract → back to G2' },
+  's1.diagram2': { vi: 'Luồng repo & trạng thái', en: 'Repository & status flow' },
+  's1.diagram2note': { vi: 'Spec đi xuống repo code; trạng thái và bằng chứng đi lên nhánh delivery-status của product-specs (ADR-0002). Backend là một monorepo (ADR-0003).', en: 'Specs flow down to code repos; status and evidence flow up to the delivery-status branch of product-specs (ADR-0002). The backend is one monorepo (ADR-0003).' },
+  's1.diagram3': { vi: 'Vòng đời trạng thái unit', en: 'Unit status lifecycle' },
+  's1.diagram3note': { vi: 'Do pipeline ghi kèm bằng chứng — không ai tick tay.', en: 'Written by pipelines with evidence — never ticked by hand.' },
+
+  's2.kicker': { vi: 'Phần 2', en: 'Section 2' },
+  's2.title': { vi: 'Khung vận hành theo từng phase', en: 'Stage-by-stage operating framework' },
+  's2.lead': { vi: 'Đầu vào, đầu ra, tiêu chí qua cổng và công cụ cho từng phase. Chọn một phase để xem chi tiết.', en: 'Inputs, outputs, gate criteria and tool stack for each phase. Pick a phase to see details.' },
+  's2.gatesTitle': { vi: 'Cổng duyệt G1 – G5', en: 'Approval gates G1 – G5' },
+  's2.gateNote': { vi: 'Mỗi cổng có đúng một người chịu trách nhiệm cuối (A). AI không bao giờ là A. Phê duyệt chính thức diễn ra qua PR hoặc approval trên Azure DevOps để lưu danh tính người duyệt.', en: 'Each gate has exactly one accountable approver (A). AI is never the A. Formal approval happens via a PR or an Azure DevOps approval so the approver identity is recorded.' },
+  's2.tierTitle': { vi: 'Phân tầng thay đổi S / M / L', en: 'Change tiers S / M / L' },
+  's2.tierNote': { vi: 'BA đề xuất tier, SA xác nhận; có tranh chấp thì chọn tier cao hơn. AI được gợi ý nhưng không được tự hạ tier.', en: 'BA proposes the tier, SA confirms; when in doubt pick the higher tier. AI may suggest but never lower a tier.' },
+
+  's3.kicker': { vi: 'Phần 3', en: 'Section 3' },
+  's3.title': { vi: 'Ma trận vai trò & hướng dẫn onboarding', en: 'Role matrix & onboarding guide' },
+  's3.lead': { vi: 'Chọn vai trò của bạn để xem trách nhiệm chính, checklist theo từng phase, tiêu chí bàn giao và cách dùng AI.', en: 'Pick your role to see core responsibilities, a stage-by-stage checklist, handoff criteria and how to use AI.' },
+  's3.raciTitle': { vi: 'Ma trận RACI', en: 'RACI matrix' },
+  's3.raciLegend': { vi: 'A = chịu trách nhiệm cuối · R = thực hiện · C = tham vấn · I = được thông báo', en: 'A = accountable · R = responsible · C = consulted · I = informed' },
+
+  's4.kicker': { vi: 'Phần 4', en: 'Section 4' },
+  's4.title': { vi: 'Thuật ngữ & viết tắt', en: 'Glossary & abbreviations' },
+  's4.lead': { vi: 'Các khái niệm và từ viết tắt dùng chung trong DragonX. Gõ để lọc, hoặc chọn nhóm.', en: 'Shared concepts and abbreviations used across DragonX. Type to filter, or pick a category.' },
+  's4.search': { vi: 'Tìm thuật ngữ, ví dụ: Bolt, G2, codekb…', en: 'Search terms, e.g. Bolt, G2, codekb…' },
+
+  's5.kicker': { vi: 'Phần 5', en: 'Section 5' },
+  's5.title': { vi: 'Hỏi đáp & xử lý vướng mắc', en: 'FAQ & troubleshooting' },
+  's5.lead': { vi: 'Các câu hỏi đã được làm rõ trong quá trình thiết kế quy trình. Gõ để lọc hoặc chọn chủ đề.', en: 'Questions clarified while designing the process. Type to filter or pick a topic.' },
+  's5.search': { vi: 'Tìm câu hỏi, ví dụ: merge, living spec, vendor…', en: 'Search questions, e.g. merge, living spec, vendor…' },
+
+  't.gate': { vi: 'Cổng', en: 'Gate' },
+  't.when': { vi: 'Khi nào', en: 'When' },
+  't.approver': { vi: 'Người duyệt', en: 'Approver' },
+  't.criteria': { vi: 'Điều kiện qua cổng', en: 'Pass criteria' },
+  't.step': { vi: 'Bước', en: 'Step' },
+
+  'p.stages': { vi: 'Các stage', en: 'Stages' },
+  'p.inputs': { vi: 'Đầu vào', en: 'Inputs' },
+  'p.outputs': { vi: 'Đầu ra', en: 'Outputs' },
+  'p.gate': { vi: 'Cổng & tiêu chí', en: 'Gate & criteria' },
+  'p.tools': { vi: 'Công cụ', en: 'Tool stack' },
+  'p.owner': { vi: 'Dẫn dắt', en: 'Led by' },
+
+  'r.resp': { vi: 'Trách nhiệm chính', en: 'Core responsibilities' },
+  'r.checklist': { vi: 'Checklist theo phase', en: 'Stage-by-stage checklist' },
+  'r.handoff': { vi: 'Tiêu chí bàn giao', en: 'Handoff criteria' },
+  'r.ai': { vi: 'Cách dùng AI', en: 'How to use AI' },
+  'r.gates': { vi: 'Cổng bạn duyệt / thực hiện', en: 'Gates you approve / run' },
+  'r.never': { vi: 'Không được làm', en: 'Never' },
+
+  'c.all': { vi: 'Tất cả', en: 'All' },
+  'c.results': { vi: 'kết quả', en: 'results' },
+  'c.none': { vi: 'Không tìm thấy kết quả phù hợp.', en: 'No matching results.' },
+
+  'f.about': { vi: 'Sổ tay vận hành AI-DLC của DragonX: vòng đời, vai trò, thuật ngữ và hỏi đáp. Dựa trên AI-DLC Workflows 2.0 (awslabs) và đề xuất vận hành nội bộ.', en: 'DragonX AI-DLC operating manual: lifecycle, roles, terminology and FAQ. Based on AI-DLC Workflows 2.0 (awslabs) and the internal operating proposal.' },
+  'f.contacts': { vi: 'Liên hệ', en: 'Contacts' },
+  'f.links': { vi: 'Liên kết nhanh', en: 'Quick links' },
+  'f.internal': { vi: 'Tài liệu nội bộ — không chia sẻ ra ngoài.', en: 'Internal document — do not share externally.' },
+  'f.updated': { vi: 'Cập nhật lần cuối', en: 'Last updated' }
+};
+
+/* =====================================================================
+   CONTENT DATA
+   ===================================================================== */
+const HERO_STATS = [
+  { n: '5', vi: 'Phase AI-DLC', en: 'AI-DLC phases' },
+  { n: '33', vi: 'Stage trong vòng đời', en: 'Lifecycle stages' },
+  { n: '6', vi: 'Cổng duyệt (G1–G5 + G3.5)', en: 'Gates (G1–G5 + G3.5)' },
+  { n: '3', vi: 'Tier thay đổi S / M / L', en: 'Change tiers S / M / L' }
+];
+
+const PRINCIPLES = [
+  { icon: '✍️', vi: ['AI soạn nháp, người duyệt', 'AI viết story, spec, thiết kế, task và code. Mỗi cổng duyệt có đúng một người chịu trách nhiệm cuối.'], en: ['AI drafts, humans approve', 'AI writes stories, specs, designs, tasks and code. Every gate has exactly one accountable human.'] },
+  { icon: '📜', vi: ['Contract-first', 'Contract API (OpenAPI) và event (AsyncAPI) được chốt ở G2. Sau đó backend, web, mobile làm song song bằng mock.'], en: ['Contract-first', 'API (OpenAPI) and event (AsyncAPI) contracts are frozen at G2. Backend, web and mobile then build in parallel against mocks.'] },
+  { icon: '🧭', vi: ['Hai cấp', 'Inception và Design làm một lần cho cả tính năng, có đủ các lead. Construction chạy riêng ở từng repo.'], en: ['Two levels', 'Inception and Design run once per feature with all leads. Construction runs per component repo.'] },
+  { icon: '🧾', vi: ['Ghi lại mọi thứ', 'Quyết định phải vào Git trước khi kết thúc buổi họp. Trạng thái unit do pipeline ghi, không tick tay.'], en: ['Record everything', 'Decisions land in Git before the meeting ends. Unit status is written by pipelines, never ticked by hand.'] }
+];
+
+const PHASES = [
+  {
+    id: 'p0', num: '0', color: 'from-violet-500 to-violet-700',
+    vi: { name: 'Initialization', tag: 'Khởi tạo', desc: 'Tự động: tạo hồ sơ intent, phát hiện workspace (greenfield/brownfield), khởi tạo trạng thái. DragonX 3.0 là greenfield cho tới release đầu tiên. Không có cổng duyệt.',
+      stages: ['0.1 Workspace Scaffold', '0.2 Workspace Detection', '0.3 State Initialization'],
+      inputs: ['Yêu cầu ban đầu (/aidlc <mô tả>)', 'Các repo đặt cạnh workspace'],
+      outputs: ['aidlc-state.md', 'audit/', 'Thư mục hồ sơ intent'],
+      gate: ['Tự chạy sang Ideation (không cần duyệt)', 'Xác nhận profile, depth, test strategy'],
+      tools: ['aidlc CLI', 'Claude Code / Cursor / Copilot'], owner: 'SA / BA' },
+    en: { name: 'Initialization', tag: 'Bootstrap', desc: 'Automatic: creates the intent record, detects the workspace (greenfield/brownfield), initialises state. DragonX 3.0 is greenfield until the first release. No approval gate.',
+      stages: ['0.1 Workspace Scaffold', '0.2 Workspace Detection', '0.3 State Initialization'],
+      inputs: ['Initial request (/aidlc <description>)', 'Repos sitting next to the workspace'],
+      outputs: ['aidlc-state.md', 'audit/', 'Intent record directory'],
+      gate: ['Auto-proceeds to Ideation (no approval)', 'Confirm profile, depth, test strategy'],
+      tools: ['aidlc CLI', 'Claude Code / Cursor / Copilot'], owner: 'SA / BA' }
+  },
+  {
+    id: 'p1', num: '1', color: 'from-emerald-500 to-emerald-700',
+    vi: { name: 'Ideation', tag: 'Ý tưởng', desc: 'Xác nhận sáng kiến: nắm ý định, đánh giá khả thi, chốt phạm vi, lập team và được chấp thuận đi tiếp.',
+      stages: ['1.1 Intent Capture', '1.2 Market Research*', '1.3 Feasibility*', '1.4 Scope Definition', '1.5 Team Formation*', '1.6 Rough Mockups*', '1.7 Approval & Handoff'],
+      inputs: ['Vấn đề, mục tiêu, chỉ số thành công từ PO', 'Tài liệu nghiệp vụ đã index (knowledge)', 'team-roster.md'],
+      outputs: ['intent-statement.md, stakeholder-map.md', 'feasibility-assessment.md, raid-log.md', 'scope-document.md', 'initiative-brief.md, decision-log.md'],
+      gate: ['Verification gate 1 (tự động): intent ↔ scope ↔ backlog nhất quán', 'PO chấp thuận đi tiếp'],
+      tools: ['aidlc CLI', 'Knowledge hub (tùy chọn)', 'Azure Boards (Feature)'], owner: 'PO' },
+    en: { name: 'Ideation', tag: 'Validate', desc: 'Validate the initiative: capture intent, assess feasibility, define scope, form the team and get approval to proceed.',
+      stages: ['1.1 Intent Capture', '1.2 Market Research*', '1.3 Feasibility*', '1.4 Scope Definition', '1.5 Team Formation*', '1.6 Rough Mockups*', '1.7 Approval & Handoff'],
+      inputs: ['Problem, goals, success metrics from the PO', 'Indexed business documents (knowledge)', 'team-roster.md'],
+      outputs: ['intent-statement.md, stakeholder-map.md', 'feasibility-assessment.md, raid-log.md', 'scope-document.md', 'initiative-brief.md, decision-log.md'],
+      gate: ['Verification gate 1 (automated): intent ↔ scope ↔ backlog consistent', 'PO approves to proceed'],
+      tools: ['aidlc CLI', 'Knowledge hub (optional)', 'Azure Boards (Feature)'], owner: 'PO' }
+  },
+  {
+    id: 'p2', num: '2', color: 'from-sky-500 to-blue-700',
+    vi: { name: 'Inception', tag: 'Làm rõ & thiết kế', desc: 'Làm rõ yêu cầu và thiết kế: đọc BRD và tài liệu đã onboard (greenfield: chưa có code để đọc), viết spec delta, thiết kế kiến trúc, chia unit, chốt contract, lập kế hoạch Bolt.',
+      stages: ['2.1 Reverse Engineering (bỏ qua – greenfield)', '2.2 Practices Discovery', '2.3 Requirements Analysis', '2.4 User Stories (mob)', '2.5 Refined Mockups*', '2.6 Domain Design (ADR)', '2.7 Units Generation (DAG)', '2.8 Contract Design', '2.9 Delivery Planning'],
+      inputs: ['initiative-brief.md', 'BRD, tài liệu C4 (knowledge/)', 'Living spec: specs/<capability>/ (khung rỗng lúc đầu)', 'contracts/ đã tag, contracts/external/', 'codekb/<repo>/ (từ sau release 1)'],
+      outputs: ['requirements.md, stories.md, spec delta (SHALL + WHEN/THEN)', 'components.md, decisions.md (ADR)', 'unit-of-work*.md + units.yaml', 'contract-summary.md → OpenAPI/AsyncAPI', 'bolt-plan.md, team-allocation.md'],
+      gate: ['G1 (PO + BA): proposal & spec delta đủ, có luồng lỗi và phân quyền', 'G2 (SA): design, contract đã lint, units.yaml duyệt, gắn tag product-specs', 'Verification gate 2: requirement ↔ story ↔ unit ↔ contract'],
+      tools: ['Mob Elaboration', 'Spectral (lint contract)', 'Azure Repos PR + branch policy', 'Dify RAG (tùy chọn)'], owner: 'BA → SA' },
+    en: { name: 'Inception', tag: 'Elaborate & design', desc: 'Elaborate and design: read the BRD and onboarded documents (greenfield: no code to read yet), write spec deltas, design architecture, split into units, freeze contracts, plan Bolts.',
+      stages: ['2.1 Reverse Engineering (skipped – greenfield)', '2.2 Practices Discovery', '2.3 Requirements Analysis', '2.4 User Stories (mob)', '2.5 Refined Mockups*', '2.6 Domain Design (ADR)', '2.7 Units Generation (DAG)', '2.8 Contract Design', '2.9 Delivery Planning'],
+      inputs: ['initiative-brief.md', 'BRD, C4 docs (knowledge/)', 'Living spec: specs/<capability>/ (empty skeleton at first)', 'Tagged contracts/, contracts/external/', 'codekb/<repo>/ (from release 1)'],
+      outputs: ['requirements.md, stories.md, spec delta (SHALL + WHEN/THEN)', 'components.md, decisions.md (ADRs)', 'unit-of-work*.md + units.yaml', 'contract-summary.md → OpenAPI/AsyncAPI', 'bolt-plan.md, team-allocation.md'],
+      gate: ['G1 (PO + BA): proposal & spec delta complete, incl. error and authorization paths', 'G2 (SA): design, linted contracts, approved units.yaml, product-specs tagged', 'Verification gate 2: requirement ↔ story ↔ unit ↔ contract'],
+      tools: ['Mob Elaboration', 'Spectral (contract lint)', 'Azure Repos PR + branch policy', 'Dify RAG (optional)'], owner: 'BA → SA' }
+  },
+  {
+    id: 'p3', num: '3', color: 'from-amber-500 to-orange-600',
+    vi: { name: 'Construction', tag: 'Xây dựng', desc: 'Từng unit đi qua thiết kế chức năng, NFR, hạ tầng và sinh code trong repo của nó; sau đó build & test tích hợp một lần cho cả giải pháp.',
+      stages: ['3.1 Functional Design', '3.2 NFR Requirements', '3.3 NFR Design', '3.4 Infrastructure Design', '3.5 Code Generation', '3.6 Build and Test (một lần)', '3.7 CI Pipeline*'],
+      inputs: ['contracts/ (chỉ đọc, CI đồng bộ)', 'work/<feature>/unit.md, unit.yaml', 'docs/service.md, AGENTS.md', 'Mock sinh từ OpenAPI'],
+      outputs: ['Code + test mang ID scenario', 'code-summary.md, traceability.json', 'integration-test-instructions.md', 'cross-unit-traceability.md, test-results.md'],
+      gate: ['G3 (mỗi PR): test pass, mỗi scenario có test, không sửa contracts/', 'G3.5 (SA, QA chạy): E2E trên staging pass, unit → integrated', 'Verification gate 3'],
+      tools: ['Claude Code / Cursor / Copilot', 'Azure Pipelines', 'Prism / WireMock', 'oasdiff (breaking change)', 'Renovate'], owner: 'Component leads' },
+    en: { name: 'Construction', tag: 'Build', desc: 'Each unit goes through functional design, NFRs, infrastructure and code generation in its own repo; then build & integration test once across the solution.',
+      stages: ['3.1 Functional Design', '3.2 NFR Requirements', '3.3 NFR Design', '3.4 Infrastructure Design', '3.5 Code Generation', '3.6 Build and Test (once)', '3.7 CI Pipeline*'],
+      inputs: ['contracts/ (read-only, CI-synced)', 'work/<feature>/unit.md, unit.yaml', 'docs/service.md, AGENTS.md', 'Mocks generated from OpenAPI'],
+      outputs: ['Code + tests named with scenario IDs', 'code-summary.md, traceability.json', 'integration-test-instructions.md', 'cross-unit-traceability.md, test-results.md'],
+      gate: ['G3 (every PR): tests pass, every scenario has a test, no contracts/ edits', 'G3.5 (SA, run by QA): E2E on staging passes, units → integrated', 'Verification gate 3'],
+      tools: ['Claude Code / Cursor / Copilot', 'Azure Pipelines', 'Prism / WireMock', 'oasdiff (breaking changes)', 'Renovate'], owner: 'Component leads' }
+  },
+  {
+    id: 'p4', num: '4', color: 'from-rose-500 to-pink-700',
+    vi: { name: 'Operation', tag: 'Vận hành', desc: 'UAT, triển khai theo thứ tự phụ thuộc, quan sát hệ thống, runbook sự cố và vòng phản hồi về Ideation.',
+      stages: ['4.1 Deployment Pipeline', '4.2 Environment Provisioning', '4.3 Deployment Execution', '4.4 Observability Setup', '4.5 Incident Response', '4.6 Performance Validation', '4.7 Feedback & Optimization'],
+      inputs: ['Bản build đã qua G3.5', 'infrastructure-specification.md', 'Kế hoạch UAT theo scenario'],
+      outputs: ['cd-config.md, rollback-runbook.md', 'deployment-log.md, smoke-test-results.md', 'dashboards.md, alarms.md, slo-config.md', 'Spec delta gộp vào specs/ (living spec)'],
+      gate: ['G4 (PO): mọi scenario đạt trên UAT', 'G5 (lead từng thành phần): deploy hạ tầng → backend → web + stonehub-web → mobile (flag)', 'Gộp spec delta + nạp knowledge hub'],
+      tools: ['Azure Pipelines environments + approvals', 'Key Vault', 'Feature flags', 'Monitoring / alerting'], owner: 'PO (G4) · Leads (G5)' },
+    en: { name: 'Operation', tag: 'Run', desc: 'UAT, deployment in dependency order, observability, incident runbooks and the feedback loop back to Ideation.',
+      stages: ['4.1 Deployment Pipeline', '4.2 Environment Provisioning', '4.3 Deployment Execution', '4.4 Observability Setup', '4.5 Incident Response', '4.6 Performance Validation', '4.7 Feedback & Optimization'],
+      inputs: ['Build that passed G3.5', 'infrastructure-specification.md', 'Scenario-based UAT plan'],
+      outputs: ['cd-config.md, rollback-runbook.md', 'deployment-log.md, smoke-test-results.md', 'dashboards.md, alarms.md, slo-config.md', 'Spec delta merged into specs/ (living spec)'],
+      gate: ['G4 (PO): every scenario passes in UAT', 'G5 (component leads): deploy infra → backend → web + stonehub-web → mobile (flag)', 'Merge spec delta + load knowledge hub'],
+      tools: ['Azure Pipelines environments + approvals', 'Key Vault', 'Feature flags', 'Monitoring / alerting'], owner: 'PO (G4) · Leads (G5)' }
+  }
+];
+
+const GATES = [
+  { g: 'G1', vi: ['Sau Inception (yêu cầu)', 'PO + BA', 'Proposal và spec delta đủ; scenario có luồng lỗi và phân quyền; câu hỏi mở có người trả lời'], en: ['After Inception (requirements)', 'PO + BA', 'Proposal and spec delta complete; scenarios cover error and authorization paths; open questions have an owner'] },
+  { g: 'G2', vi: ['Sau Design', 'SA (các lead tham vấn)', 'design.md, contract đã lint, units.yaml đã duyệt; gắn tag product-specs (contract freeze)'], en: ['After Design', 'SA (leads consulted)', 'design.md, linted contracts, approved units.yaml; product-specs tagged (contract freeze)'] },
+  { g: 'G3', vi: ['Mỗi PR', 'SA (kiến trúc) + lead (code)', 'Test pass; mỗi scenario của unit có test; không sửa contracts/'], en: ['Every PR', 'SA (architecture) + lead (code)', 'Tests pass; every scenario of the unit has a test; no change to contracts/'] },
+  { g: 'G3.5', vi: ['Mọi unit verified, sai lệch đã được chấp nhận', 'SA (QA thực hiện)', 'E2E trên staging pass; các unit được đánh dấu integrated'], en: ['All units verified, deviations accepted', 'SA (run by QA)', 'E2E on staging passes; units marked integrated'] },
+  { g: 'G4', vi: ['UAT', 'PO', 'Mọi scenario đạt trên môi trường UAT'], en: ['UAT', 'PO', 'Every scenario passes in the UAT environment'] },
+  { g: 'G5', vi: ['Phát hành', 'Lead từng thành phần', 'Deploy theo thứ tự hạ tầng → backend → web + stonehub-web → mobile (bật flag); spec được cập nhật và nạp vào knowledge hub'], en: ['Release', 'Component leads', 'Deploy in order infra → backend → web + stonehub-web → mobile (flag on); spec updated and loaded into the knowledge hub'] }
+];
+
+const TIERS = [
+  { t: 'S', cls: 'bg-emerald-50 border-emerald-200 text-emerald-800', vi: ['Bug trong một service/app, không đổi contract hay hành vi đã đặc tả; chỉnh text, config, refactor', 'PR trong repo đó · G3'], en: ['Bug in one service/app, no change to contracts or specified behaviour; text, config, refactor', 'PR in that repo · G3'] },
+  { t: 'M', cls: 'bg-amber-50 border-amber-200 text-amber-800', vi: ['Tính năng gọn trong một thành phần; thêm field/endpoint không phá vỡ contract', 'Thư mục feature gọn, review bất đồng bộ · G1, (G2), G3, G4, G5'], en: ['Feature within one component; non-breaking field/endpoint addition', 'Light feature folder, async review · G1, (G2), G3, G4, G5'] },
+  { t: 'L', cls: 'bg-rose-50 border-rose-200 text-rose-800', vi: ['Chạm từ 2 thành phần; breaking change; bảo mật hoặc quy định', 'Đầy đủ: Mob Elaboration, contract freeze, Integration bolt · G1–G5 + G3.5'], en: ['Touches 2+ components; breaking change; security or regulatory impact', 'Full flow: Mob Elaboration, contract freeze, Integration bolt · G1–G5 + G3.5'] }
+];
+
+const ROLES = [
+  {
+    id: 'po', short: 'PO', icon: '🎯',
+    vi: { name: 'Product Owner',
+      resp: ['Viết mục Why, mục tiêu, chỉ số thành công trong proposal.md trước Mob Elaboration 1–2 ngày', 'Chốt thứ tự ưu tiên và phạm vi ngoài lề (out of scope)', 'Nghiệm thu UAT và quyết định phát hành có điều kiện khi cần'],
+      checklist: { 'Ideation': ['Mô tả vấn đề, mục tiêu, ràng buộc', 'Xác nhận stakeholder map và scope'], 'Inception': ['Trình bày vấn đề tại Mob Elaboration', 'Duyệt G1 cùng BA qua PR'], 'Construction': ['Theo dõi tiến độ trên Boards/Wiki', 'Quyết định khi BA chuyển lên sai lệch lớn'], 'Operation': ['Chạy UAT cùng BA/QA, duyệt G4', 'Chọn: từ chối / phát hành có điều kiện / phát hành một phần'] },
+      handoff: ['proposal.md có Why, mục tiêu, chỉ số đo được', 'Out of scope được ghi rõ', 'G4: mọi scenario đạt hoặc sai lệch được chấp nhận có ghi nhận'],
+      ai: 'Dùng chatflow trên knowledge hub để hỏi tiến độ, rủi ro, sai lệch; không cần dùng Git trực tiếp.',
+      gates: ['G1 (cùng BA)', 'G4'], never: ['Đưa yêu cầu mới vào giữa UAT như là "lỗi" — tách thành feature mới'] },
+    en: { name: 'Product Owner',
+      resp: ['Write the Why, goals and success metrics in proposal.md 1–2 days before Mob Elaboration', 'Set priority and out-of-scope items', 'Accept UAT and decide on conditional release when needed'],
+      checklist: { 'Ideation': ['Describe problem, goals, constraints', 'Confirm stakeholder map and scope'], 'Inception': ['Present the problem at Mob Elaboration', 'Approve G1 with the BA via PR'], 'Construction': ['Follow progress on Boards/Wiki', 'Decide when the BA escalates major deviations'], 'Operation': ['Run UAT with BA/QA, approve G4', 'Choose: reject / conditional release / partial release'] },
+      handoff: ['proposal.md has Why, goals, measurable metrics', 'Out of scope is explicit', 'G4: every scenario passes or deviations are accepted and recorded'],
+      ai: 'Use the knowledge-hub chatflow to ask about progress, risks, deviations; no direct Git needed.',
+      gates: ['G1 (with BA)', 'G4'], never: ['Sneak new requirements into UAT as "bugs" — split them into a new feature'] }
+  },
+  {
+    id: 'ba', short: 'BA', icon: '📝',
+    vi: { name: 'Business Analyst',
+      resp: ['Cầm lái AI trong Mob Elaboration', 'Viết user story và spec delta: mỗi requirement dùng SHALL, có ít nhất một scenario WHEN/THEN', 'Sở hữu living spec theo capability; gộp delta vào specs/ ở G5', 'Duyệt sai lệch loại scenario'],
+      checklist: { 'Ideation': ['Thu thập tài liệu nghiệp vụ, đưa vào knowledge/documents', 'Đề xuất tier'], 'Inception': ['Dẫn Mob Elaboration, commit proposal + spec delta trước khi kết thúc buổi', 'Scenario có luồng lỗi và phân quyền', 'Duyệt G1 cùng PO'], 'Construction': ['Đóng / từ chối work item sai lệch (aidlc-deviation)', 'Trả lời câu hỏi nghiệp vụ trong bolt check-in'], 'Operation': ['Hỗ trợ UAT, tạo Bug theo scenario fail', 'Gộp spec delta vào specs/ sau release, chuyển feature sang archive'] },
+      handoff: ['Spec delta đủ SHALL + WHEN/THEN, ID scenario đúng quy ước', 'Mọi câu hỏi mở có người trả lời và hạn', 'Glossary được cập nhật với thuật ngữ mới'],
+      ai: 'Dùng Analyst agent tra spec hiện có, quy định, change cũ trước khi soạn; nhờ AI tìm mâu thuẫn với spec cũ.',
+      gates: ['G1 (cùng PO)', 'Duyệt sai lệch scenario'], never: ['Sửa trực tiếp specs/ ngoài bước gộp G5', 'Để quyết định chỉ nằm trong chat hoặc biên bản'] },
+    en: { name: 'Business Analyst',
+      resp: ['Drive the AI during Mob Elaboration', 'Write user stories and spec deltas: every requirement uses SHALL with at least one WHEN/THEN scenario', 'Own the living spec per capability; merge deltas into specs/ at G5', 'Approve scenario deviations'],
+      checklist: { 'Ideation': ['Collect business documents into knowledge/documents', 'Propose the tier'], 'Inception': ['Lead Mob Elaboration; commit proposal + spec delta before the session ends', 'Scenarios include error and authorization paths', 'Approve G1 with the PO'], 'Construction': ['Close / reject deviation work items (aidlc-deviation)', 'Answer business questions at bolt check-ins'], 'Operation': ['Support UAT, raise Bugs per failed scenario', 'Merge the spec delta into specs/ after release; archive the feature'] },
+      handoff: ['Spec delta has SHALL + WHEN/THEN with valid scenario IDs', 'Every open question has an owner and due date', 'Glossary updated with new terms'],
+      ai: 'Use the Analyst agent to look up existing specs, regulations and past changes before drafting; ask AI to find contradictions with existing specs.',
+      gates: ['G1 (with PO)', 'Scenario deviations'], never: ['Edit specs/ directly outside the G5 merge', 'Leave decisions only in chat or meeting notes'] }
+  },
+  {
+    id: 'sa', short: 'SA', icon: '🏛️',
+    vi: { name: 'Solution Architect',
+      resp: ['Thiết kế xuyên hệ thống (design.md), viết ADR', 'Sở hữu contract OpenAPI/AsyncAPI và contracts/external', 'Soạn units.yaml (unit, thành phần, phụ thuộc, scenario)', 'Xác nhận tier; chủ trì G3.5'],
+      checklist: { 'Ideation': ['Đánh giá khả thi, ràng buộc kỹ thuật, vendor'], 'Inception': ['Onboard BRD/C4, khung living spec; Bolt 0 cùng Dev lead (greenfield)', 'Domain Design + ADR (≥ 2 phương án)', 'Units Generation: DAG có unit kind: spec ở gốc', 'Contract Design, lint, gắn tag (G2)'], 'Construction': ['Review kiến trúc ở G3', 'Xử lý contract sai: quay lại G2, tag mới, unit liên quan → blocked', 'Chủ trì G3.5'], 'Operation': ['Review thứ tự deploy, runbook', 'Theo dõi vendor (vendor.yaml), thông báo deprecation', 'Sau release đầu tiên: chạy Reverse Engineering, review codekb'] },
+      handoff: ['Contract đã lint, tag product-specs đã tạo', 'units.yaml có owner, kind, depends_on, scenario', 'ADR có Context, Decision, Consequences, Alternatives'],
+      ai: 'Dùng Architect agent phân tích tác động và đề xuất 2–3 phương án kèm ưu nhược; SA chọn.',
+      gates: ['G2', 'G3 (kiến trúc)', 'G3.5'], never: ['Cho phép đổi contract sau G2 mà không duyệt lại', 'Để AI tự hạ tier'] },
+    en: { name: 'Solution Architect',
+      resp: ['Cross-system design (design.md), ADRs', 'Own OpenAPI/AsyncAPI contracts and contracts/external', 'Author units.yaml (units, components, dependencies, scenarios)', 'Confirm tiers; chair G3.5'],
+      checklist: { 'Ideation': ['Assess feasibility, technical constraints, vendors'], 'Inception': ['Onboard BRD/C4, living-spec skeleton; Bolt 0 with the Dev lead (greenfield)', 'Domain Design + ADRs (≥ 2 alternatives)', 'Units Generation: DAG with a kind: spec unit at the root', 'Contract Design, lint, tag (G2)'], 'Construction': ['Architecture review at G3', 'Wrong contract: back to G2, new tag, affected units → blocked', 'Chair G3.5'], 'Operation': ['Review deployment order and runbooks', 'Track vendors (vendor.yaml), deprecation notices', 'After the first release: run Reverse Engineering, review codekb'] },
+      handoff: ['Contracts linted, product-specs tag created', 'units.yaml has owner, kind, depends_on, scenarios', 'ADRs have Context, Decision, Consequences, Alternatives'],
+      ai: 'Use the Architect agent for impact analysis and 2–3 options with trade-offs; the SA decides.',
+      gates: ['G2', 'G3 (architecture)', 'G3.5'], never: ['Allow contract changes after G2 without re-approval', 'Let AI lower a tier'] }
+  },
+  {
+    id: 'be', short: 'BE Dev', icon: '⚙️',
+    vi: { name: 'Backend Developer / Lead',
+      resp: ['Nhận unit sau G2 (một unit = một service trong monorepo backend); tạo work/<feature>/<Ux>-<service>/tasks.md và unit.yaml', 'Viết test trước cho từng scenario, đặt ID scenario trong tên test', 'Chạy contract test (provider) và kiểm tra breaking change', 'Giữ docs/service.md luôn đúng'],
+      checklist: { 'Ideation': ['(Lead) tham vấn khả thi'], 'Inception': ['Soi rủi ro kỹ thuật ở Mob Elaboration', '(Lead) Bolt 0: dựng khung repo, lệnh kiểm tra, pipeline PR', 'Tham vấn contract và units.yaml'], 'Construction': ['Builder agent lập bolt và code; mở cùng repo service + product-specs', 'Chỉ gọi service khác qua client sinh từ contract', 'PR cuối: [<feature>/<Ux>] + nhãn unit-complete'], 'Operation': ['(Lead) duyệt G5 backend', 'Theo dõi alarm, runbook'] },
+      handoff: ['Mọi scenario của unit có test pass', 'Không sửa contracts/ hay client sinh tự động', 'Sai lệch (nếu có) khai trong deviations của unit.yaml'],
+      ai: 'Builder agent: lập bolt, sinh code + test; luôn đọc unit.md, contracts/, service.md trước. Thấy contract sai thì dừng và báo SA.',
+      gates: ['G3 (code — lead)', 'G5 backend (lead)'], never: ['Sửa contracts/ (sinh tự động)', 'Sửa hoặc tắt test để test pass', 'Tự đổi hành vi đã đặc tả'] },
+    en: { name: 'Backend Developer / Lead',
+      resp: ['Pick up units after G2 (one unit = one service in the backend monorepo); create work/<feature>/<Ux>-<service>/tasks.md and unit.yaml', 'Write tests first per scenario, scenario ID in the test name', 'Run provider contract tests and breaking-change checks', 'Keep docs/service.md accurate'],
+      checklist: { 'Ideation': ['(Lead) consulted on feasibility'], 'Inception': ['Surface technical risks at Mob Elaboration', '(Lead) Bolt 0: scaffold the repo, check command, PR pipeline', 'Consulted on contracts and units.yaml'], 'Construction': ['Builder agent plans bolts and codes; open service repo + product-specs together', 'Call other services only via contract-generated clients', 'Final PR: [<feature>/<Ux>] + unit-complete label'], 'Operation': ['(Lead) approve G5 backend', 'Watch alarms, runbooks'] },
+      handoff: ['Every scenario of the unit has a passing test', 'No edits to contracts/ or generated clients', 'Deviations (if any) declared in unit.yaml'],
+      ai: 'Builder agent: plans bolts, generates code + tests; always reads unit.md, contracts/, service.md first. If the contract looks wrong, stop and tell the SA.',
+      gates: ['G3 (code — lead)', 'G5 backend (lead)'], never: ['Edit contracts/ (generated)', 'Modify or disable tests to get green', 'Change specified behaviour on your own'] }
+  },
+  {
+    id: 'web', short: 'Web Dev', icon: '🖥️',
+    vi: { name: 'Web Developer / Lead',
+      resp: ['Bắt đầu ngay sau G2 với mock server sinh từ OpenAPI', 'Chỉ gọi API qua client sinh từ contract', 'Sở hữu BFF (nếu có) và contract riêng của BFF', 'E2E pass trên staging thì unit là verified'],
+      checklist: { 'Ideation': ['(Lead) tham vấn mockup, khả thi UI'], 'Inception': ['Tham gia Mob Elaboration, refined mockups', 'Tham vấn contract cho màn hình'], 'Construction': ['Dựng UI với mock, test consumer', 'PR cuối [<feature>/<Ux>] + unit-complete', 'Viết E2E cho G3.5'], 'Operation': ['(Lead) duyệt G5 web', 'Bật feature flag theo kế hoạch'] },
+      handoff: ['UI chạy với mock và với staging thật', 'E2E cho scenario chính pass', 'Không có lời gọi HTTP viết tay tới service nội bộ'],
+      ai: 'Agent sinh component, client, test từ contract và mockup; review accessibility và luồng lỗi.',
+      gates: ['G3 (code — lead)', 'G5 web (lead)'], never: ['Gọi API không có trong contract', 'Hard-code dữ liệu nhạy cảm vào fixture'] },
+    en: { name: 'Web Developer / Lead',
+      resp: ['Start right after G2 with a mock server generated from OpenAPI', 'Call APIs only via contract-generated clients', 'Own the BFF (if any) and its own contract', 'A unit is verified when E2E passes on staging'],
+      checklist: { 'Ideation': ['(Lead) consulted on mockups, UI feasibility'], 'Inception': ['Join Mob Elaboration, refined mockups', 'Consulted on screen-level contracts'], 'Construction': ['Build UI against mocks, consumer tests', 'Final PR [<feature>/<Ux>] + unit-complete', 'Write E2E for G3.5'], 'Operation': ['(Lead) approve G5 web', 'Enable feature flags as planned'] },
+      handoff: ['UI works against mocks and real staging', 'E2E for key scenarios passes', 'No hand-written HTTP calls to internal services'],
+      ai: 'Agent generates components, clients and tests from contracts and mockups; review accessibility and error paths.',
+      gates: ['G3 (code — lead)', 'G5 web (lead)'], never: ['Call APIs not in the contract', 'Hard-code sensitive data in fixtures'] }
+  },
+  {
+    id: 'mobile', short: 'Mobile Dev', icon: '📱',
+    vi: { name: 'Mobile Developer / Lead',
+      resp: ['Bắt đầu ngay sau G2 với mock', 'Mọi tính năng mới nằm sau feature flag', 'Ghi min_backend khi báo cáo unit', 'Bảo đảm tương thích ngược với các bản app cũ còn hỗ trợ'],
+      checklist: { 'Ideation': ['(Lead) tham vấn khả thi, lịch store'], 'Inception': ['Tham gia Mob Elaboration', 'Kiểm tra breaking change với app đang chạy'], 'Construction': ['Dựng tính năng với mock + flag', 'verified = có bản build nội bộ (TestFlight / Play Internal)', 'PR cuối [<feature>/<Ux>] + unit-complete'], 'Operation': ['G4 luôn trước khi nộp store', '(Lead) duyệt G5 mobile; released = đã lên store'] },
+      handoff: ['Feature flag mặc định tắt', 'min_backend được ghi trong unit.yaml', 'Bản build nội bộ đã qua E2E'],
+      ai: 'Agent sinh màn hình, client, test; luôn hỏi về tương thích ngược và trạng thái flag.',
+      gates: ['G3 (code — lead)', 'G5 mobile (lead)'], never: ['Phát hành tính năng không có flag', 'Dựa vào thay đổi API mà app cũ không xử lý được'] },
+    en: { name: 'Mobile Developer / Lead',
+      resp: ['Start right after G2 with mocks', 'Every new feature sits behind a feature flag', 'Record min_backend when reporting a unit', 'Keep backward compatibility with supported older app versions'],
+      checklist: { 'Ideation': ['(Lead) consulted on feasibility, store schedule'], 'Inception': ['Join Mob Elaboration', 'Check breaking changes against live app versions'], 'Construction': ['Build against mocks + flags', 'verified = internal build (TestFlight / Play Internal)', 'Final PR [<feature>/<Ux>] + unit-complete'], 'Operation': ['G4 always before store submission', '(Lead) approve G5 mobile; released = live on store'] },
+      handoff: ['Feature flag off by default', 'min_backend recorded in unit.yaml', 'Internal build has passed E2E'],
+      ai: 'Agent generates screens, clients and tests; always ask about backward compatibility and flag state.',
+      gates: ['G3 (code — lead)', 'G5 mobile (lead)'], never: ['Ship a feature without a flag', 'Rely on API changes older apps cannot handle'] }
+  },
+  {
+    id: 'qa', short: 'QA', icon: '🧪',
+    vi: { name: 'Quality Assurance',
+      resp: ['Tham gia Mob Elaboration để soi scenario thiếu', 'Chạy Integration bolt (E2E trên staging) — G3.5', 'Hỗ trợ BA và PO trong UAT', 'Chạy set-unit-status đánh dấu integrated'],
+      checklist: { 'Ideation': ['Ghi nhận rủi ro chất lượng'], 'Inception': ['Soi scenario thiếu, luồng lỗi, phân quyền', 'Kiểm tra scenario có kiểm thử được không'], 'Construction': ['Chuẩn bị E2E theo scenario', 'Khi Boards tạo task G3.5: chạy E2E trên staging', 'set-unit-status → integrated (kèm lý do)'], 'Operation': ['UAT cùng BA/PO', 'G4 fail: hỏi "vì sao lỗi lọt qua G3.5?" cho Retro AI'] },
+      handoff: ['Mọi scenario có kết quả theo ID', 'E2E pass trên staging', 'Lỗi do môi trường/dữ liệu được tách khỏi lỗi code'],
+      ai: 'Agent sinh test case từ scenario, dữ liệu test giả lập, và báo cáo kết quả theo ID scenario.',
+      gates: ['Thực hiện G3.5', 'Hỗ trợ G4'], never: ['Dùng dữ liệu khách hàng thật', 'Nới lỏng assertion để test xanh'] },
+    en: { name: 'Quality Assurance',
+      resp: ['Join Mob Elaboration to find missing scenarios', 'Run the Integration bolt (E2E on staging) — G3.5', 'Support BA and PO during UAT', 'Run set-unit-status to mark units integrated'],
+      checklist: { 'Ideation': ['Note quality risks'], 'Inception': ['Find missing scenarios, error paths, authorization', 'Check scenarios are testable'], 'Construction': ['Prepare E2E per scenario', 'When Boards creates the G3.5 task: run E2E on staging', 'set-unit-status → integrated (with reason)'], 'Operation': ['UAT with BA/PO', 'G4 fail: ask "why did it slip through G3.5?" for Retro AI'] },
+      handoff: ['Every scenario has a result by ID', 'E2E passes on staging', 'Environment/data issues separated from code defects'],
+      ai: 'Agent generates test cases from scenarios, synthetic test data, and reports results by scenario ID.',
+      gates: ['Runs G3.5', 'Supports G4'], never: ['Use real customer data', 'Weaken assertions to get green'] }
+  },
+  {
+    id: 'ops', short: 'DevOps / Infra', icon: '🛠️',
+    vi: { name: 'DevOps / Platform',
+      resp: ['Pipeline template (unit-report, aggregate, set-unit-status, vendor-spec-sync)', 'Branch policy, path-based reviewer, quyền Build Service', 'Hạ tầng IaC, Key Vault, environment approvals', 'Observability: tracing xuyên chuỗi, alarm theo ranh giới'],
+      checklist: { 'Ideation': ['Ràng buộc hạ tầng, chi phí'], 'Inception': ['Tham vấn Infrastructure Design, NFR', 'Chuẩn bị môi trường sandbox/staging'], 'Construction': ['PR IaC: kèm output plan / what-if', 'CI checks: scenario coverage, contract, secret scan'], 'Operation': ['Deploy theo thứ tự phụ thuộc', 'Dashboard, alarm, runbook, rollback'] },
+      handoff: ['Pipeline ghi trạng thái unit kèm bằng chứng', 'Môi trường staging/UAT sẵn sàng', 'Secret nằm trong Key Vault, không trong YAML'],
+      ai: 'Agent chỉ được chạy plan / what-if, không bao giờ apply; không xóa tài nguyên có dữ liệu khi chưa có người duyệt.',
+      gates: ['Hỗ trợ G5', 'Environment approvals'], never: ['Cho agent quyền apply hạ tầng', 'Ghi credential vào pipeline YAML'] },
+    en: { name: 'DevOps / Platform',
+      resp: ['Pipeline templates (unit-report, aggregate, set-unit-status, vendor-spec-sync)', 'Branch policies, path-based reviewers, Build Service permissions', 'IaC, Key Vault, environment approvals', 'Observability: tracing across the chain, alarms per boundary'],
+      checklist: { 'Ideation': ['Infrastructure and cost constraints'], 'Inception': ['Consulted on Infrastructure Design, NFRs', 'Prepare sandbox/staging environments'], 'Construction': ['IaC PRs include plan / what-if output', 'CI checks: scenario coverage, contract, secret scan'], 'Operation': ['Deploy in dependency order', 'Dashboards, alarms, runbooks, rollback'] },
+      handoff: ['Pipelines record unit status with evidence', 'Staging/UAT environments ready', 'Secrets live in Key Vault, not in YAML'],
+      ai: 'Agents may run plan / what-if only, never apply; never delete stateful resources without human approval.',
+      gates: ['Supports G5', 'Environment approvals'], never: ['Give agents apply rights on infrastructure', 'Put credentials in pipeline YAML'] }
+  }
+];
+
+const RACI = {
+  cols: ['PO', 'BA', 'SA', 'BE', 'Web', 'Mobile', 'QA'],
+  rows: [
+    { vi: 'Mục tiêu, phạm vi, ưu tiên', en: 'Goals, scope, priority', v: ['A/R','C','C','I','I','I','I'] },
+    { vi: 'User story, spec delta (WHEN/THEN)', en: 'User stories, spec delta (WHEN/THEN)', v: ['C','A/R','C','C','C','C','C'] },
+    { vi: 'Phân tier', en: 'Tier classification', v: ['I','R','A','C','C','C','I'] },
+    { vi: 'Thiết kế xuyên hệ thống, ADR', en: 'Cross-system design, ADRs', v: ['I','C','A/R','C','C','C','I'] },
+    { vi: 'Contract (OpenAPI, AsyncAPI)', en: 'Contracts (OpenAPI, AsyncAPI)', v: ['I','C','A','R','C','C','I'] },
+    { vi: 'Phân rã unit (units.yaml)', en: 'Unit breakdown (units.yaml)', v: ['I','C','A/R','C','C','C','C'] },
+    { vi: 'Code và test thành phần', en: 'Component code and tests', v: ['I','I','C','A (BE)','A (Web)','A (Mobile)','C'] },
+    { vi: 'Duyệt sai lệch so với spec', en: 'Approve spec deviations', v: ['C','A','C','I','I','I','C'] },
+    { vi: 'Integration bolt (G3.5)', en: 'Integration bolt (G3.5)', v: ['I','C','A','R','R','R','R'] },
+    { vi: 'UAT, nghiệm thu (G4)', en: 'UAT, acceptance (G4)', v: ['A','R','I','C','C','C','R'] },
+    { vi: 'Phát hành production (G5)', en: 'Production release (G5)', v: ['I','I','C','A (BE)','A (Web)','A (Mobile)','C'] },
+    { vi: 'Gộp spec delta vào living spec', en: 'Merge spec delta into living spec', v: ['I','A/R','C','I','I','I','I'] }
+  ]
+};
+
+const GLOSS_CATS = [
+  { id: 'lifecycle', vi: 'Vòng đời', en: 'Lifecycle', cls: 'bg-sky-100 text-sky-800' },
+  { id: 'artifacts', vi: 'Artifact & Spec', en: 'Artifacts & Specs', cls: 'bg-violet-100 text-violet-800' },
+  { id: 'governance', vi: 'Quản trị', en: 'Governance', cls: 'bg-amber-100 text-amber-800' },
+  { id: 'engineering', vi: 'Kỹ thuật', en: 'Engineering', cls: 'bg-emerald-100 text-emerald-800' },
+  { id: 'tooling', vi: 'Công cụ', en: 'Tooling', cls: 'bg-rose-100 text-rose-800' }
+];
+
+const GLOSSARY = [
+  ['AI-DLC', 'lifecycle', 'AI-Driven Development Lifecycle', 'Mô hình phát triển phần mềm lấy AI làm trung tâm: AI soạn nháp ở mọi bước, con người duyệt tại các cổng. Gồm 5 phase và 33 stage.', 'Software development model with AI at the centre: AI drafts at every step, humans approve at gates. 5 phases and 33 stages.'],
+  ['Intent', 'lifecycle', '', 'Một đơn vị công việc = một lần chạy vòng đời AI-DLC (một tính năng, một bugfix…). Có hồ sơ riêng trong aidlc/spaces/<space>/intents/.', 'One piece of work = one run of the AI-DLC lifecycle (a feature, a bugfix…). Has its own record under aidlc/spaces/<space>/intents/.'],
+  ['Space', 'lifecycle', '', 'Không gian của một team: memory (rule), knowledge, codekb và các intent. DragonX dùng một space "default" cho cả sản phẩm.', 'A team\'s world: memory (rules), knowledge, codekb and intents. DragonX uses one "default" space for the whole product.'],
+  ['Phase', 'lifecycle', '', '5 giai đoạn lớn: Initialization, Ideation, Inception, Construction, Operation. Ranh giới phase có verification gate tự động.', '5 major stages: Initialization, Ideation, Inception, Construction, Operation. Phase boundaries have automated verification gates.'],
+  ['Stage', 'lifecycle', '', 'Bước nhỏ trong phase (ví dụ 2.7 Units Generation). Mỗi stage có đầu vào, đầu ra và cổng duyệt của người.', 'A step inside a phase (e.g. 2.7 Units Generation). Each stage has inputs, outputs and a human approval gate.'],
+  ['Bolt', 'lifecycle', '', 'Lát giao hàng ngắn (vài giờ – 1–2 ngày) trong Construction, gồm một hoặc nhiều unit, có Definition of Done, giả thuyết cần kiểm chứng, demo và chủ sở hữu. Thay cho sprint.', 'Short delivery slice (hours – 1–2 days) in Construction, covering one or more units, with a Definition of Done, confidence hypothesis, demo and owner. Replaces the sprint.'],
+  ['Unit of work (Ux)', 'lifecycle', '', 'Một phần của hệ thống được giao cho một repo (ví dụ payment-service). Có kind: service, spec, ui, library, packaging.', 'A part of the system owned by one repo (e.g. payment-service). Has a kind: service, spec, ui, library, packaging.'],
+  ['DAG', 'lifecycle', 'Directed Acyclic Graph', 'Đồ thị phụ thuộc giữa các unit (2.7). Quyết định thứ tự build thực tế. Đặt unit kind: spec (contract) ở gốc để các service build song song.', 'Dependency graph between units (2.7). Drives the actual build order. Put a kind: spec (contract) unit at the root so services build in parallel.'],
+  ['Walking skeleton', 'lifecycle', '', 'Unit/Bolt đầu tiên: lát mỏng nhất chạy xuyên suốt toàn luồng (có thể dùng stub), phải qua kiểm tra end-to-end thật trước khi làm tiếp.', 'First unit/Bolt: the thinnest slice running through the whole flow (stubs allowed); must pass a real end-to-end check before continuing.'],
+  ['Mob Elaboration', 'lifecycle', '', 'Buổi 2–4 giờ ở Inception: PO, BA, SA, các lead, QA cùng dùng AI (BA cầm lái) biến ý tưởng thành proposal và spec delta đã commit.', '2–4 hour Inception session: PO, BA, SA, leads and QA use AI together (BA drives) to turn an idea into a committed proposal and spec delta.'],
+  ['Mob Construction', 'lifecycle', '', 'Buổi 1–2 giờ khi gặp vấn đề khó hoặc chạm nhiều team; quyết định ghi vào decisions-log.md.', '1–2 hour session for hard or cross-team problems; decisions go into decisions-log.md.'],
+  ['Retro AI', 'lifecycle', '', 'Retro 2–4 tuần/lần: AI sai ở đâu, thiếu ngữ cảnh gì; cập nhật prompt, AGENTS.md, glossary, knowledge.', 'Retro every 2–4 weeks: where AI went wrong and what context was missing; update prompts, AGENTS.md, glossary, knowledge.'],
+  ['Brownfield / Greenfield', 'lifecycle', '', 'Brownfield = đã có code (chạy Reverse Engineering); greenfield = dự án mới. DragonX 3.0 là greenfield (ADR-0004): bỏ qua Reverse Engineering cho tới sau release đầu tiên.', 'Brownfield = existing code (runs Reverse Engineering); greenfield = new project. DragonX 3.0 is greenfield (ADR-0004): Reverse Engineering is skipped until after the first release.'],
+  ['Bolt 0', 'lifecycle', '', 'Việc dựng khung trước Construction ở dự án greenfield: khung từng repo, một lệnh kiểm tra chạy được (Construction Verification Command) và pipeline PR. Dev lead làm, xong trước G2 của intent đầu tiên.', 'Pre-Construction scaffolding on a greenfield project: each repo\'s skeleton, one runnable check command (the Construction Verification Command) and the PR pipeline. Done by the Dev lead before G2 of the first intent.'],
+  ['Profile / Scope', 'lifecycle', '', 'Kiểu workflow AI-DLC: feature, express, bugfix, refactor, infra, security-patch, enterprise, mvp, poc, classic, workshop.', 'AI-DLC workflow type: feature, express, bugfix, refactor, infra, security-patch, enterprise, mvp, poc, classic, workshop.'],
+
+  ['codekb', 'artifacts', 'Code knowledge base', '9 file do Reverse Engineering sinh từ code cho mỗi repo (architecture, api-documentation, dependencies…). Phản chiếu "hệ thống đang là gì". DragonX: rỗng cho tới sau release đầu tiên.', '9 files generated by Reverse Engineering per repo (architecture, api-documentation, dependencies…). Mirrors "what the system is". DragonX: empty until after the first release.'],
+  ['Living spec', 'artifacts', '', 'specs/<capability>/spec.md — hành vi hiện tại của hệ thống, chỉ cập nhật ở G5 bằng cách gộp spec delta, được kiểm chứng bằng test mang ID scenario.', 'specs/<capability>/spec.md — current system behaviour, updated only at G5 by merging spec deltas, verified by tests carrying scenario IDs.'],
+  ['Spec delta', 'artifacts', '', 'Thay đổi spec của một tính năng: ADDED / MODIFIED / REMOVED requirements, nằm trong features/<feature>/.', 'A feature\'s spec change: ADDED / MODIFIED / REMOVED requirements, kept in features/<feature>/.'],
+  ['Capability', 'artifacts', '', 'Năng lực nghiệp vụ (reporting, subscription…), có thể đi qua nhiều service. Đơn vị tổ chức living spec.', 'A business capability (reporting, subscription…) that may span several services. The unit for organising living specs.'],
+  ['Scenario ID', 'artifacts', '', 'Định danh scenario dạng <capability>:<feature>:<case>; tên test dạng <capability>__<feature>__<case>.', 'Scenario identifier <capability>:<feature>:<case>; test name <capability>__<feature>__<case>.'],
+  ['SHALL / WHEN-THEN', 'artifacts', '', 'Cách viết requirement (SHALL) và scenario chấp nhận (WHEN điều kiện, THEN kết quả). Scenario chính là acceptance criteria.', 'How to write requirements (SHALL) and acceptance scenarios (WHEN condition, THEN outcome). Scenarios are the acceptance criteria.'],
+  ['ADR', 'artifacts', 'Architecture Decision Record', 'Ghi lại quyết định kiến trúc: Context, Decision, Consequences, Alternatives Rejected (≥ 2 phương án).', 'Records an architecture decision: Context, Decision, Consequences, Alternatives Rejected (≥ 2 options).'],
+  ['units.yaml', 'artifacts', '', 'Danh sách unit của tính năng: tên, kind, owner, depends_on, scenario. SA sở hữu, duyệt ở G2.', 'A feature\'s unit list: name, kind, owner, depends_on, scenarios. Owned by the SA, approved at G2.'],
+  ['product-specs', 'artifacts', '', 'Repo trung tâm và cũng là workspace AI-DLC (nhánh main): specs/, contracts/, features/, adr/, aidlc/. Nhánh delivery-status chứa trạng thái unit.', 'Central repo and AI-DLC workspace (main branch): specs/, contracts/, features/, adr/, aidlc/. The delivery-status branch holds unit status.'],
+  ['delivery-status', 'artifacts', '', 'Nhánh orphan trong repo product-specs chứa trạng thái unit (features/<feature>/<Ux>.yaml). Chỉ pipeline (Build Service) được ghi; không merge với main (ADR-0002).', 'Orphan branch of the product-specs repo holding unit status (features/<feature>/<Ux>.yaml). Written only by pipelines (Build Service); never merged with main (ADR-0002).'],
+  ['StoneHub', 'artifacts', 'Back-office web app', 'Web app nội bộ cho nhân viên vận hành (repo stonehub-web), tách khỏi web-app của khách hàng. Đăng nhập SSO, phân quyền theo vai trò, audit mọi thao tác thay đổi dữ liệu.', 'Internal web app for operations staff (repo stonehub-web), separate from the customer web-app. SSO sign-in, role-based permissions, every state-changing action audited.'],
+  ['backend (monorepo)', 'artifacts', '', 'Một repo cho tất cả backend service: services/<service>/, libs/, contracts/ chỉ đọc, work/<feature>/<Ux>-<service>/. Mỗi service vẫn deploy độc lập (ADR-0003).', 'One repo for all backend services: services/<service>/, libs/, read-only contracts/, work/<feature>/<Ux>-<service>/. Each service still deploys independently (ADR-0003).'],
+  ['AGENTS.md', 'artifacts', '', 'Luật cho AI agent: product-specs/AGENTS.md (chung) + AGENTS.md từng repo (riêng). Khi mâu thuẫn: chỉ dẫn người dùng > luật chung > luật repo.', 'Rules for AI agents: product-specs/AGENTS.md (shared) + per-repo AGENTS.md. On conflict: user instruction > shared rules > repo rules.'],
+  ['service.md', 'artifacts', '', 'docs/service.md trong mỗi repo: điều spec không nói tới — cấu trúc code, chạy local, phụ thuộc, bẫy. File AI cần nhất.', 'docs/service.md in each repo: what specs don\'t say — code layout, local run, dependencies, gotchas. The file AI needs most.'],
+  ['Knowledge (Tier 2)', 'artifacts', '', 'aidlc/spaces/default/knowledge/: tài liệu tham khảo do team quản lý. aidlc-shared/ cho mọi agent, thư mục theo agent cho từng agent.', 'aidlc/spaces/default/knowledge/: team-managed reference material. aidlc-shared/ for all agents, per-agent folders for each agent.'],
+  ['DocumentKB', 'artifacts', '', 'Catalog tài liệu gốc (PDF, Word, Markdown) đã index qua /aidlc knowledge onboard | sync.', 'Catalog of original documents (PDF, Word, Markdown) indexed via /aidlc knowledge onboard | sync.'],
+  ['Memory / Rules', 'artifacts', '', 'memory/org.md, team.md, project.md, phases/: luật ngắn NEVER/ALWAYS, cộng dồn theo chuỗi org → team → project → phase.', 'memory/org.md, team.md, project.md, phases/: short NEVER/ALWAYS rules, additive along org → team → project → phase.'],
+
+  ['G1 – G5, G3.5', 'governance', 'Gates', 'Cổng duyệt của DragonX: G1 yêu cầu, G2 contract freeze, G3 mỗi PR, G3.5 tích hợp, G4 UAT, G5 phát hành.', 'DragonX approval gates: G1 requirements, G2 contract freeze, G3 every PR, G3.5 integration, G4 UAT, G5 release.'],
+  ['Verification gate', 'governance', 'VG', 'Kiểm tra tự động của AI-DLC ở ranh giới phase: đủ artifact, truy vết không đứt, không có artifact mồ côi.', 'AI-DLC automated check at phase boundaries: artifacts present, traceability intact, no orphans.'],
+  ['Contract freeze', 'governance', '', 'Chốt contract ở G2 bằng tag product-specs. Đổi sau G2 phải quay lại G2; unit liên quan chuyển blocked.', 'Freezing contracts at G2 by tagging product-specs. Changes after G2 go back to G2; affected units become blocked.'],
+  ['Tier S / M / L', 'governance', '', 'Mức độ quy trình theo quy mô thay đổi. BA đề xuất, SA xác nhận; AI không được tự hạ tier.', 'Process weight by change size. BA proposes, SA confirms; AI may not lower a tier.'],
+  ['RACI', 'governance', 'Responsible, Accountable, Consulted, Informed', 'Ma trận trách nhiệm. Mỗi bước có đúng một A; AI không bao giờ là A.', 'Responsibility matrix. Each step has exactly one A; AI is never the A.'],
+  ['Deviation', 'governance', '', 'Khác biệt đã khai báo giữa hành vi giao và spec; thành work item tag aidlc-deviation, người duyệt đóng = chấp nhận.', 'A declared difference between delivered behaviour and the spec; becomes a work item tagged aidlc-deviation, closing it = accepted.'],
+  ['Drift', 'governance', '', 'Spec, contract hoặc codekb lệch thực tế (scenario thiếu test, test fail, API lệch contract). Phát hiện bằng pipeline drift.', 'Spec, contract or codekb diverging from reality (missing tests, failing tests, API vs contract). Detected by a drift pipeline.'],
+  ['Learning loop', 'governance', '', 'Chỉnh sửa trong stage được xác nhận ở cổng duyệt và lưu thành rule (project.md / team.md), áp dụng từ workflow sau.', 'In-stage corrections confirmed at the gate and saved as rules (project.md / team.md), applied from the next workflow.'],
+  ['Guard Policy', 'governance', '', 'Mức chặt của các "fence" trong AI-DLC (strict / relaxed / off). DragonX dùng strict.', 'Strictness of AI-DLC fences (strict / relaxed / off). DragonX uses strict.'],
+  ['PO / BA / SA / QA', 'governance', '', 'Product Owner · Business Analyst · Solution Architect · Quality Assurance.', 'Product Owner · Business Analyst · Solution Architect · Quality Assurance.'],
+  ['UAT', 'governance', 'User Acceptance Testing', 'Nghiệm thu người dùng theo scenario; PO duyệt ở G4.', 'Scenario-based user acceptance; approved by the PO at G4.'],
+
+  ['Contract-first', 'engineering', '', 'Chốt contract trước khi code; các team code song song với mock sinh từ contract.', 'Freeze contracts before coding; teams build in parallel against contract-generated mocks.'],
+  ['OpenAPI / AsyncAPI', 'engineering', '', 'Chuẩn mô tả API HTTP (OpenAPI) và event/message (AsyncAPI). Nguồn của client, mock và contract test.', 'Specifications for HTTP APIs (OpenAPI) and events/messages (AsyncAPI). Source of clients, mocks and contract tests.'],
+  ['Contract test', 'engineering', '', 'Test kiểm chứng provider đúng contract (backend) và consumer dùng đúng contract (web/mobile).', 'Tests that the provider honours the contract (backend) and consumers use it correctly (web/mobile).'],
+  ['Characterization test', 'engineering', '', 'Test ghi nhận đúng hành vi hiện tại của code cũ, dùng khi dựng living spec gốc cho hệ thống đã có. Không dùng ở DragonX 3.0 (greenfield).', 'A test that locks in the current behaviour of legacy code, used when baselining living specs for an existing system. Not used on DragonX 3.0 (greenfield).'],
+  ['E2E', 'engineering', 'End-to-End test', 'Test toàn luồng trên staging; điều kiện của G3.5.', 'Full-flow test on staging; required for G3.5.'],
+  ['NFR', 'engineering', 'Non-Functional Requirement', 'Yêu cầu phi chức năng: bảo mật, hiệu năng, khả năng mở rộng, quan sát, độ tin cậy (stage 3.2/3.3).', 'Non-functional requirements: security, performance, scalability, observability, reliability (stages 3.2/3.3).'],
+  ['BFF', 'engineering', 'Backend for Frontend', 'Lớp backend riêng cho web; thuộc team web và có contract riêng.', 'Backend layer dedicated to the web app; owned by the web team with its own contract.'],
+  ['Feature flag', 'engineering', '', 'Công tắc bật/tắt tính năng khi chạy; bắt buộc cho mọi tính năng mobile mới.', 'Runtime on/off switch for a feature; mandatory for every new mobile feature.'],
+  ['Adapter / ACL', 'engineering', 'Anti-Corruption Layer', 'Lớp bọc vendor/SDK bên thứ ba, chuyển model vendor sang domain. Code nghiệp vụ không gọi thẳng vendor.', 'Wrapper around a third-party vendor/SDK that maps vendor models to the domain. Business code never calls the vendor directly.'],
+  ['Saga / Compensation', 'engineering', '', 'Cách xử lý giao dịch qua nhiều service: mỗi bước có hành động bù khi bước sau lỗi. Quyết định trong ADR ở 2.6.', 'Handling transactions across services: each step has a compensating action if a later step fails. Decided in an ADR at 2.6.'],
+  ['Idempotency', 'engineering', '', 'Gọi lại nhiều lần cho cùng kết quả; bắt buộc với thao tác tiền/đơn hàng (Idempotency-Key).', 'Repeated calls give the same result; mandatory for money/order operations (Idempotency-Key).'],
+  ['IaC', 'engineering', 'Infrastructure as Code', 'Hạ tầng mô tả bằng code (Bicep/Terraform). Agent chỉ được plan/what-if, không apply.', 'Infrastructure described as code (Bicep/Terraform). Agents may plan/what-if only, never apply.'],
+  ['CI/CD', 'engineering', 'Continuous Integration / Delivery', 'Build, test, kiểm tra tự động mỗi PR và triển khai qua Azure Pipelines.', 'Automated build, test and checks on every PR and deployment via Azure Pipelines.'],
+  ['WSJF', 'engineering', 'Weighted Shortest Job First', 'Cách xếp thứ tự Bolt: (giá trị + khẩn cấp + giảm rủi ro) ÷ độ lớn.', 'Bolt ordering method: (value + time criticality + risk reduction) ÷ job size.'],
+
+  ['aidlc CLI', 'tooling', '', 'Lệnh /aidlc (hoặc $aidlc trên Codex) chạy workflow trong harness: Claude Code, Cursor, Copilot, Kiro, Codex, opencode.', 'The /aidlc command ($aidlc on Codex) running workflows inside a harness: Claude Code, Cursor, Copilot, Kiro, Codex, opencode.'],
+  ['Harness', 'tooling', '', 'Công cụ AI coding chạy AI-DLC (Claude Code, Cursor, GitHub Copilot, Kiro…).', 'The AI coding tool that runs AI-DLC (Claude Code, Cursor, GitHub Copilot, Kiro…).'],
+  ['MCP', 'tooling', 'Model Context Protocol', 'Giao thức để agent truy cập công cụ/dữ liệu ngoài, ví dụ context7 (docs SDK) hoặc knowledge hub.', 'Protocol letting agents reach external tools/data, e.g. context7 (SDK docs) or the knowledge hub.'],
+  ['RAG / Knowledge hub', 'tooling', 'Retrieval-Augmented Generation', 'Hệ thống hỏi đáp tự host (ví dụ Dify) nạp spec, contract, ADR đã release; PO/BA hỏi qua web, agent tra qua MCP.', 'Self-hosted Q&A system (e.g. Dify) loaded with released specs, contracts, ADRs; PO/BA ask via web, agents via MCP.'],
+  ['Branch policy', 'tooling', '', 'Quy tắc của Azure Repos: PR bắt buộc, reviewer theo đường dẫn, build validation, cấm tự duyệt.', 'Azure Repos rules: required PRs, path-based reviewers, build validation, no self-approval.'],
+  ['Build Service', 'tooling', '', 'Danh tính pipeline trên Azure DevOps; chỉ ghi được nhánh delivery-status (không ghi main), Wiki và tạo work item.', 'The pipeline identity in Azure DevOps; can write only the delivery-status branch (not main), the Wiki and work items.'],
+  ['oasdiff / Spectral / Prism', 'tooling', '', 'oasdiff: phát hiện breaking change OpenAPI · Spectral: lint contract · Prism: mock server từ OpenAPI.', 'oasdiff: OpenAPI breaking-change detection · Spectral: contract lint · Prism: mock server from OpenAPI.'],
+  ['Renovate', 'tooling', '', 'Bot mở PR nâng version dependency/SDK (hỗ trợ Azure DevOps); không tự merge.', 'Bot opening PRs to bump dependency/SDK versions (supports Azure DevOps); never auto-merges.']
+];
+
+const DEV_TEAM = {
+  vi: {
+    title: 'Developer làm việc nhóm',
+    lead: 'Nhiều developer chạy song song: mỗi người một intent, dùng chung workspace `product-specs`. Team mode của AI-DLC không dùng được với bố cục nhiều repo, nên đây là cách làm song song.',
+    steps: [
+      ['Cài máy một lần', 'Chạy `setup-macos.sh --no-extras`, rồi `cd product-specs && aidlc system workspace-sync`; cài toolchain theo phần mình làm. Repo code không có `aidlc/`; không chạy `aidlc config` trong repo code.'],
+      ['Mở Claude Code ở gốc product-specs', '`git pull`, rồi `/aidlc intent` để xem danh sách và `/aidlc intent <tên>` để chọn. Mỗi phiên Claude Code gắn với một intent, mở nhiều cửa sổ cũng không lẫn.'],
+      ['Mỗi developer một intent', 'Tính năng lớn: SA/BA chạy intent cấp tính năng tới G2; sau đó mỗi dev mở intent cho Unit của mình bằng `/aidlc compose`, kiểm tra kế hoạch đã bỏ Ideation và Inception rồi mới duyệt. Việc nhỏ: chạy trọn một intent scope `bugfix` hoặc `feature`. Tên intent kèm số AB#.'],
+      ['Nói rõ intent đụng repo nào', 'Ví dụ "chỉ backend, services/order-service". Mở `intents.json`, kiểm tra dòng `repos` của intent. Repo chưa clone lúc tạo intent sẽ không có trong danh sách.'],
+      ['Nhánh và PR', 'Repo code: nhánh `feature/<feature>/<Ux>`, PR `[<feature>/<Ux>] …` kèm label `unit-complete` (G3). `product-specs`: PR riêng cho hồ sơ `aidlc/spaces/default/intents/<intent>/`.'],
+      ['Bàn giao', '`/aidlc park`, commit và push hồ sơ intent. Người tiếp theo `git pull`, `/aidlc intent <tên>`, `/aidlc --resume`.']
+    ],
+    dontTitle: 'Quy tắc khi làm nhóm',
+    donts: [
+      'Không để hai người chạy chung một intent trên hai máy — `aidlc-state.md` sẽ conflict.',
+      '`intents.json` là sổ đăng ký chung: rebase trước khi merge; khi conflict, giữ cả hai dòng.',
+      'Chỉ SA sửa `memory/`. Dev tắt learnings (`/aidlc --learnings off`) hoặc chuyển đề xuất cho SA.',
+      'Không commit `.claude/`; thấy file trong đó thay đổi thì báo SA.',
+      'SA đặt reviewer theo đường dẫn: `aidlc/spaces/*/intents/**` chỉ cần Dev lead; `specs/`, `memory/`, `.claude/` vẫn cần PO + SA.'
+    ],
+    more: 'Hướng dẫn đầy đủ:'
+  },
+  en: {
+    title: 'Developer teamwork',
+    lead: 'Many developers work in parallel: one intent each, sharing the `product-specs` workspace. AI-DLC team mode does not work with a multi-repo layout, so this is how parallel work is done.',
+    steps: [
+      ['Set up once', 'Run `setup-macos.sh --no-extras`, then `cd product-specs && aidlc system workspace-sync`; install the toolchain for your part. Code repos have no `aidlc/`; never run `aidlc config` inside a code repo.'],
+      ['Open Claude Code at the product-specs root', '`git pull`, then `/aidlc intent` to list and `/aidlc intent <name>` to pick. Each Claude Code session is bound to one intent, so several windows do not mix.'],
+      ['One intent per developer', 'Large features: the SA/BA run a feature-level intent up to G2; then each developer opens an intent for their Unit with `/aidlc compose`, checking the proposed plan skips Ideation and Inception before approving. Small work: run a whole `bugfix` or `feature` intent. Put the AB# number in the intent name.'],
+      ['Say which repos the intent touches', 'For example "backend only, services/order-service". Check the intent\'s `repos` row in `intents.json`. A repo not cloned when the intent was created is not in the list.'],
+      ['Branches and PRs', 'Code repo: branch `feature/<feature>/<Ux>`, PR `[<feature>/<Ux>] …` with the `unit-complete` label (G3). `product-specs`: a separate PR for the `aidlc/spaces/default/intents/<intent>/` record.'],
+      ['Hand over', '`/aidlc park`, commit and push the intent record. The next person runs `git pull`, `/aidlc intent <name>`, `/aidlc --resume`.']
+    ],
+    dontTitle: 'Teamwork rules',
+    donts: [
+      'Never let two people drive the same intent on two machines — `aidlc-state.md` will conflict.',
+      '`intents.json` is a shared registry: rebase before merging; on conflict, keep both rows.',
+      'Only the SA edits `memory/`. Developers turn learnings off (`/aidlc --learnings off`) or pass proposals to the SA.',
+      'Never commit `.claude/`; if files there change, tell the SA.',
+      'The SA sets path-based reviewers: `aidlc/spaces/*/intents/**` needs only the Dev lead; `specs/`, `memory/`, `.claude/` still need PO + SA.'
+    ],
+    more: 'Full guide:'
+  }
+};
+
+function renderDevTeam() {
+  const d = DEV_TEAM[LANG];
+  const md = (x) => esc(x).replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-100 text-[0.85em] text-slate-800">$1</code>');
+  $('devTeam').innerHTML =
+    '<h3 class="text-lg font-semibold">' + esc(d.title) + '</h3>' +
+    '<p class="mt-2 text-sm text-slate-600 leading-relaxed max-w-3xl">' + md(d.lead) + '</p>' +
+    '<ol class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-4">' + d.steps.map(([h, b], i) =>
+      '<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">' +
+      '<div class="flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-brand-700 text-white text-xs font-bold flex items-center justify-center shrink-0">' + (i + 1) + '</span>' +
+      '<span class="font-semibold text-slate-900">' + esc(h) + '</span></div>' +
+      '<p class="mt-2 text-sm text-slate-700 leading-relaxed">' + md(b) + '</p></li>').join('') + '</ol>' +
+    '<div class="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">' +
+    '<div class="font-semibold text-amber-900 text-sm">' + esc(d.dontTitle) + '</div>' +
+    '<ul class="mt-2 space-y-1.5 text-sm text-amber-950 list-disc pl-5">' + d.donts.map(x => '<li>' + md(x) + '</li>').join('') + '</ul></div>' +
+    '<p class="mt-4 text-sm text-slate-600">' + esc(d.more) + ' <a class="text-brand-700 font-medium hover:underline" href="01-getting-started/aidlc-developer-greenfield-guide.md">01-getting-started/aidlc-developer-greenfield-guide.md</a></p>';
+}
+
+const FAQ_CATS = [
+  { id: 'gov', vi: 'Quản trị & quy trình', en: 'Governance & process' },
+  { id: 'spec', vi: 'Spec & tri thức', en: 'Specs & knowledge' },
+  { id: 'build', vi: 'Construction & code', en: 'Construction & code' },
+  { id: 'deploy', vi: 'Tích hợp & triển khai', en: 'Integration & deployment' }
+];
+
+const FAQ = [
+  ['gov', 'Bolt là gì, khác Unit thế nào?', 'What is a Bolt and how is it different from a Unit?',
+   'Bolt là một lát giao hàng ngắn (vài giờ đến 1–2 ngày) trong Construction, kết thúc bằng thứ chạy được, có Definition of Done, giả thuyết cần kiểm chứng, demo và chủ sở hữu. Unit là một phần của hệ thống (ví dụ payment-service); Bolt là một lượt giao hàng gom một hoặc nhiều unit. Thứ tự chạy thực tế do đồ thị phụ thuộc giữa các unit (2.7) quyết định, không phải bolt-plan.md.',
+   'A Bolt is a short delivery slice (hours to 1–2 days) in Construction that ends in something running, with a Definition of Done, confidence hypothesis, demo and owner. A Unit is a part of the system (e.g. payment-service); a Bolt is a delivery pass over one or more units. Actual run order comes from the unit dependency graph (2.7), not bolt-plan.md.'],
+  ['gov', 'AI-DLC tự merge code hay con người merge?', 'Does AI-DLC merge code, or do humans?',
+   'Quyết định merge luôn là của người. Sau khi người duyệt, công cụ của AI-DLC mới chạy lệnh git merge cục bộ; push lên remote do người làm. AI-DLC không tạo PR trên Azure Repos. Với DragonX: cấu hình AI-DLC merge vào nhánh feature/<feature>, không vào main; main chỉ thay đổi qua PR có người duyệt (G3).',
+   'The decision to merge is always human. Only after approval does AI-DLC tooling run a local git merge; pushing to the remote is done by a human. AI-DLC does not create Azure Repos PRs. For DragonX: configure AI-DLC to merge into feature/<feature>, never main; main changes only through a human-approved PR (G3).'],
+  ['gov', 'Ghi nhận thành viên team (PO, BA, SA…) vào workflow thế nào?', 'How do we record team members (PO, BA, SA…) in the workflow?',
+   'AI-DLC không có danh sách người dùng hay vai trò. Ghi ở hai nơi: (1) knowledge/aidlc-shared/team-roster.md để agent ghi đúng tên người trong stakeholder map, team-allocation, units.yaml; (2) nhóm bảo mật Azure DevOps theo vai trò, reviewer bắt buộc theo đường dẫn, environment approvals — nơi danh tính người duyệt được lưu. Mỗi người đặt git user.email = tài khoản Azure DevOps.',
+   'AI-DLC has no user or role registry. Record people in two places: (1) knowledge/aidlc-shared/team-roster.md so agents name real people in stakeholder maps, team-allocation and units.yaml; (2) Azure DevOps security groups per role, path-based required reviewers, environment approvals — where approver identity is recorded. Everyone sets git user.email to their Azure DevOps account.'],
+  ['gov', 'Có nên dùng nhiều space (mỗi team một space) không?', 'Should each team have its own space?',
+   'Không. Space tách riêng rule, knowledge và intent của từng team — đi ngược nguyên tắc Inception ở cấp sản phẩm. Dùng một space "default" cho cả sản phẩm; quy ước riêng của từng thành phần đặt trong AGENTS.md của repo. Chỉ tách space cho team/sản phẩm thật sự độc lập.',
+   'No. A space separates rules, knowledge and intents per team — against the product-level Inception principle. Use one "default" space for the whole product; component conventions live in each repo\'s AGENTS.md. Only split spaces for truly independent teams/products.'],
+  ['gov', 'G4 (UAT) không đạt thì làm gì?', 'What happens when G4 (UAT) fails?',
+   'Phân loại nguyên nhân trước khi sửa: lỗi thực hiện → Construction; spec sai/thiếu → G1; contract sai → G2; NFR không đạt → Design; yêu cầu mới → tách feature mới; môi trường/dữ liệu UAT → sửa môi trường, không lùi trạng thái. PO chọn: từ chối, phát hành có điều kiện, hoặc phát hành một phần bằng feature flag. Mỗi lần G4 fail đưa vào Retro AI.',
+   'Classify the cause before fixing: implementation defect → Construction; wrong/missing spec → G1; wrong contract → G2; NFR miss → Design; new requirement → new feature; UAT environment/data → fix the environment, no status rollback. The PO chooses: reject, conditional release, or partial release via feature flag. Every G4 failure goes to Retro AI.'],
+  ['gov', 'Phát hiện contract sai sau G2 thì sao?', 'What if a contract turns out wrong after G2?',
+   'Agent và dev dừng lại và báo SA — không tự vá contract. Quay lại G2: SA sửa contract, gắn tag mới; các unit liên quan chuyển blocked cho tới khi cập nhật xong.',
+   'Agents and developers stop and tell the SA — never patch the contract. Go back to G2: the SA fixes the contract and tags a new version; affected units become blocked until updated.'],
+
+  ['spec', 'Product spec chính của dự án nằm ở đâu?', 'Where does the project\'s main product spec live?',
+   'AI-DLC không có sẵn living spec; mỗi intent chỉ ghi một lần thay đổi. Sự thật nằm ở: specs/ (hệ thống phải làm gì), contracts/ (ranh giới giữa service), codekb/ (hệ thống thực sự đang là gì, sinh từ code — với DragonX chỉ có từ sau release đầu tiên). BRD là đầu vào lập kế hoạch, không phải nguồn sự thật. Artifact trong intents/ là lịch sử, không phải trạng thái hiện tại.',
+   'AI-DLC has no built-in living spec; each intent records one change. Truth lives in: specs/ (what the system must do), contracts/ (service boundaries), codekb/ (what the system actually is, generated from code — for DragonX only from the first release on). The BRD is planning input, not a source of truth. Artifacts in intents/ are history, not current state.'],
+  ['spec', 'Tạo living spec cho dự án greenfield thế nào?', 'How do we create living specs on a greenfield project?',
+   '(A) Khởi tạo khung từ BRD: lập bản đồ capability → chốt template spec.md → AI tạo spec.md khung (chỉ Purpose và Out of scope, chưa có requirement) → PO, BA, SA duyệt → gắn baseline rỗng specs-v<yyyy.mm>.0. Không chép BRD vào specs/. (B) Giữ sống: mọi thay đổi đi qua spec delta (các release đầu chủ yếu là ADDED), gộp vào specs/ ở G5, kiểm tra drift hằng ngày; kiểm tra dựa trên codekb bật từ sau release đầu tiên.',
+   '(A) Skeleton from the BRD: map capabilities → agree the spec.md template → AI creates skeleton spec.md files (Purpose and Out of scope only, no requirements yet) → PO, BA, SA review → tag an empty baseline specs-v<yyyy.mm>.0. Never copy the BRD into specs/. (B) Keep it living: every change goes through a spec delta (mostly ADDED in early releases), merged into specs/ at G5, with daily drift checks; codekb-based checks start after the first release.'],
+  ['spec', 'Tài liệu (BRD, quy định, tiêu chuẩn), link web, API spec, DDL đặt ở đâu?', 'Where do documents (BRD, regulations, standards), web links, API specs and DDL go?',
+   'Tài liệu PDF/Word → knowledge/documents/ rồi /aidlc knowledge onboard (Word nên chuyển Markdown). Link web → lưu thành PDF/MD, hoặc liệt kê trong reference-links.md; docs SDK công khai dùng MCP context7. API spec → product-specs/contracts/ (là contract, không phải knowledge). DDL → greenfield nên schema được thiết kế mới, nằm trong service sở hữu database (db/migrations, kèm db/schema.sql); DDL hệ thống bên ngoài cần đọc → product-specs/data/<db>/; kèm ghi chú data-model.md.',
+   'PDF/Word docs → knowledge/documents/ then /aidlc knowledge onboard (convert Word to Markdown). Web links → save as PDF/MD, or list in reference-links.md; public SDK docs via the context7 MCP. API specs → product-specs/contracts/ (they are contracts, not knowledge). DDL → greenfield, so the schema is designed new in the service owning the database (db/migrations, plus db/schema.sql); DDL of external systems you read → product-specs/data/<db>/; plus a data-model.md note.'],
+  ['spec', 'Knowledge và Rules khác nhau thế nào?', 'What is the difference between Knowledge and Rules?',
+   'Rules (memory/) là câu ngắn NEVER/ALWAYS, bắt buộc — người review sẽ từ chối output nếu vi phạm. Knowledge là tài liệu tham khảo, có thể dài, giúp agent hiểu ngữ cảnh. File trong knowledge/aidlc-shared/ được nạp ở mọi stage nên phải ngắn và cập nhật; tài liệu lớn để trong DocumentKB.',
+   'Rules (memory/) are short, mandatory NEVER/ALWAYS statements — a reviewer would reject output that breaks them. Knowledge is reference material, possibly long, giving agents context. Files in knowledge/aidlc-shared/ load at every stage so keep them short and current; large documents belong in DocumentKB.'],
+  ['spec', 'Khởi động dự án greenfield (DragonX 3.0) thế nào?', 'How do we start the greenfield project (DragonX 3.0)?',
+   'Tạo repo rỗng trên Azure Repos → chạy setup-macos.sh → repos.json (org + url từng repo) và aidlc system workspace-sync → SA chạy aidlc config --harness claude --mcp none, ghi model preset, commit .claude/ cùng manifest → viết rule (team.md, project.md ghi rõ greenfield) và onboard BRD/C4 → khung living spec, baseline rỗng → Bolt 0: khung repo, lệnh kiểm tra, pipeline PR → intent đầu tiên là walking skeleton: /aidlc --project-type greenfield "…" (scope mvp hoặc feature). Không chạy Reverse Engineering; chạy lần đầu sau release đầu tiên. Xem 01-getting-started/aidlc-greenfield-quickstart.md.',
+   'Create empty repos in Azure Repos → run setup-macos.sh → repos.json (org + a url per repo) and aidlc system workspace-sync → the SA runs aidlc config --harness claude --mcp none, records a model preset, commits .claude/ with its manifest → write rules (team.md, project.md stating greenfield) and onboard the BRD/C4 → living-spec skeleton, empty baseline → Bolt 0: repo scaffolding, check command, PR pipeline → the first intent is a walking skeleton: /aidlc --project-type greenfield "…" (scope mvp or feature). No Reverse Engineering; run it first after the first release. See 01-getting-started/aidlc-greenfield-quickstart.md.'],
+
+  ['build', 'Tính năng đi qua chuỗi nhiều service được xử lý thế nào?', 'How is a feature that runs through a chain of services handled?',
+   'Một intent trải trên nhiều repo. 2.7 chia mỗi service thành một unit và dựng đồ thị phụ thuộc — đặt unit kind: spec (contract) ở gốc để các service build song song bằng mock. 2.8 tạo contract cho mọi cạnh (gồm timeout, retry, idempotency). 2.9 chọn walking skeleton xuyên toàn chuỗi. 3.6 kiểm thử tích hợp một lần cho cả chuỗi, gồm luồng lỗi.',
+   'One intent spanning several repos. 2.7 makes each service a unit and builds the dependency graph — put a kind: spec (contract) unit at the root so services build in parallel against mocks. 2.8 creates a contract for every edge (incl. timeout, retry, idempotency). 2.9 picks a walking skeleton through the whole chain. 3.6 runs integration tests once across the chain, including failure paths.'],
+  ['build', 'Team mode của AI-DLC có dùng được cho DragonX không?', 'Can DragonX use AI-DLC team mode?',
+   'Hiện chưa. Team mode (nhiều team claim unit song song) yêu cầu workspace root chính là repo nguồn; intent trải trên các repo đặt cạnh nhau bị từ chối. DragonX dùng solo ownership: Inception/Design do SA hoặc BA dẫn dắt; Construction — sau G2, mỗi developer chạy một intent riêng cho unit được giao, trong workspace product-specs (không phải trong repo code); delivery-status nối các unit về tính năng. Xem mục "Developer làm việc nhóm" ở Phần 3.',
+   'Not currently. Team mode (teams claiming units in parallel) requires the workspace root to be the source repo; intents spanning sibling repos are rejected. DragonX uses solo ownership: SA or BA drives Inception/Design; for Construction, after G2 each developer runs a separate intent for their assigned unit in the product-specs workspace (not inside the code repo), with delivery-status linking units back to the feature. See "Developer teamwork" in Section 3.'],
+  ['build', 'Repo code (backend, web-app, stonehub-web, mobile-app) có cần thư mục aidlc/ không?', 'Do the code repos (backend, web-app, stonehub-web, mobile-app) need an aidlc/ folder?',
+   'Không. AI-DLC 2.0 chỉ có một workspace là product-specs: .claude/ và aidlc/spaces/… (memory, knowledge, codekb, intents) nằm ở đó. Repo code là thư mục con có git riêng, do lệnh aidlc system workspace-sync clone vào và đã được gitignore; AI-DLC tự nhận ra chúng khi tạo intent và ghi code vào đúng repo. Repo code chỉ chứa code, test, AGENTS.md, .product-specs.yaml và work/<feature>/<Ux>-<service>/ (unit.yaml, tasks.md). Không chạy aidlc config trong repo code: lệnh đó tạo workspace thứ hai, làm hồ sơ intent và audit bị tách đôi. Luôn mở Claude Code ở gốc product-specs. Lưu ý: planning/04-repo-layout.md còn mô tả aidlc/<AB#id>/ trong repo dragonx — đó là thư mục theo work item của harness cũ (port từ bond-market), không phải AI-DLC 2.0.',
+   'No. AI-DLC 2.0 has a single workspace, product-specs: .claude/ and aidlc/spaces/… (memory, knowledge, codekb, intents) live there. Code repos are child folders with their own git, cloned by aidlc system workspace-sync and gitignored; AI-DLC discovers them when an intent is created and writes code into the right repo. A code repo holds only code, tests, AGENTS.md, .product-specs.yaml and work/<feature>/<Ux>-<service>/ (unit.yaml, tasks.md). Never run aidlc config inside a code repo: it creates a second workspace and splits intent records and audit in two. Always open Claude Code at the product-specs root. Note: planning/04-repo-layout.md still describes aidlc/<AB#id>/ in a dragonx repo — that is the per-work-item folder of the older harness ported from bond-market, not AI-DLC 2.0.'],
+  ['build', 'Team đông developer, mỗi người chạy một intent có được không?', 'With many developers, can each run their own intent?',
+   'Được — đây là cách làm song song duy nhất với bố cục nhiều repo (team mode không dùng được). Mỗi intent có thư mục hồ sơ riêng, con trỏ active-intent nằm trên máy từng người, audit ghi theo từng bản clone. Điểm cần quản lý khi cùng đẩy về product-specs: intents.json là sổ đăng ký chung nên PR song song dễ conflict (rebase, giữ cả hai dòng); memory/ chỉ SA sửa; không để hai người chạy chung một intent; đặt reviewer theo đường dẫn để PR hồ sơ intent không phải chờ PO + SA. Chi tiết ở mục "Developer làm việc nhóm" (Phần 3).',
+   'Yes — it is the only way to work in parallel with a multi-repo layout (team mode is unavailable). Each intent has its own record folder, the active-intent cursor is per user, and audit is sharded per clone. What to manage when everyone pushes to product-specs: intents.json is a shared registry, so parallel PRs conflict easily (rebase, keep both rows); only the SA edits memory/; never let two people drive the same intent; use path-based reviewers so intent-record PRs do not wait on PO + SA. Details under "Developer teamwork" (Section 3).'],
+  ['build', 'Cấu trúc repo code chuẩn gồm những gì?', 'What does a standard code repo contain?',
+   'Backend là monorepo: AGENTS.md gốc, .product-specs.yaml (một tag cho cả repo), contracts/ (CI đồng bộ, chỉ đọc), services/<service>/ (AGENTS.md riêng, src/, db/migrations + schema.sql, tests/, docs/service.md, pipeline theo path), libs/ dùng chung, work/<feature>/<Ux>-<service>/ (unit.yaml, tasks.md). Service không import code của nhau. Web (web-app), back office (stonehub-web) và mobile là repo riêng với cấu trúc tương tự một service.',
+   'The backend is a monorepo: root AGENTS.md, .product-specs.yaml (one tag for the repo), contracts/ (CI-synced, read-only), services/<service>/ (own AGENTS.md, src/, db/migrations + schema.sql, tests/, docs/service.md, path-triggered pipeline), shared libs/, work/<feature>/<Ux>-<service>/ (unit.yaml, tasks.md). Services never import each other\'s code. Web (web-app), back office (stonehub-web) and mobile are separate repos shaped like a single service.'],
+  ['gov', 'Vì sao delivery-status là nhánh riêng trong product-specs?', 'Why is delivery-status a separate branch of product-specs?',
+   'Để bớt một repo mà vẫn giữ bảo vệ G1/G2. Azure DevOps phân quyền theo nhánh, nên Build Service được ghi nhánh orphan delivery-status nhưng không ghi được main. Nếu đặt trạng thái thành thư mục trên main, Build Service phải bypass policy toàn nhánh. Không merge/rebase giữa hai nhánh; workspace không checkout delivery-status (ADR-0002, thay ADR-0001).',
+   'To drop one repo while keeping G1/G2 protection. Azure DevOps sets permissions per branch, so the Build Service can write the orphan delivery-status branch but not main. A status folder on main would require bypassing policies on the whole branch. Never merge/rebase between the two; the workspace never checks out delivery-status (ADR-0002, supersedes ADR-0001).'],
+  ['build', 'AI có được sửa test hoặc contract để build xanh không?', 'May AI modify tests or contracts to get a green build?',
+   'Không bao giờ. Agent không được sửa contracts/, không được sửa/tắt/xóa test để pass, không tự merge PR, không đưa secret hoặc dữ liệu khách hàng vào code, test, prompt. Gặp spec/contract sai thì dừng và hỏi người.',
+   'Never. Agents may not edit contracts/, modify/disable/delete tests to pass, self-merge PRs, or put secrets or customer data into code, tests or prompts. If a spec/contract looks wrong, stop and ask a human.'],
+
+  ['deploy', 'Có nên đưa hạ tầng vào workflow AI-DLC không?', 'Should infrastructure be part of the AI-DLC workflow?',
+   'Có, nhưng chia đôi: thay đổi hạ tầng do tính năng sinh ra (route API gateway, queue, DB, secret) đi trong AI-DLC như một thành phần (repo IaC, unit riêng, deploy hạ tầng trước). Vận hành nền tảng (vá, scale, sự cố) chạy luồng Ops riêng. Agent chỉ chạy plan/what-if; network, IAM, gateway auth luôn là tier L.',
+   'Yes, but split it: feature-driven infra changes (API gateway routes, queues, DBs, secrets) go through AI-DLC as a component (IaC repo, own unit, infra deployed first). Platform operations (patching, scaling, incidents) run a separate Ops flow. Agents run plan/what-if only; network, IAM and gateway auth are always tier L.'],
+  ['deploy', 'Tích hợp 3rd-party service/SDK: tài liệu để đâu, đồng bộ thế nào?', 'Third-party services/SDKs: where do docs go and how are they synced?',
+   'Spec vendor (OpenAPI/AsyncAPI) → contracts/external/<vendor>/<version>/ kèm vendor.yaml (chỉ đọc). Cách mình dùng vendor → integrations/<vendor>/integration.md. PDF/portal → knowledge/documents/vendors/. AI-DLC không tự đồng bộ: dùng pipeline hằng tuần tải spec, so sánh bằng oasdiff, mở PR cho SA duyệt; Renovate cho SDK. Code chỉ gọi vendor qua adapter.',
+   'Vendor specs (OpenAPI/AsyncAPI) → contracts/external/<vendor>/<version>/ with vendor.yaml (read-only). How we use the vendor → integrations/<vendor>/integration.md. PDFs/portals → knowledge/documents/vendors/. AI-DLC does not sync on its own: a weekly pipeline downloads specs, diffs them with oasdiff and opens a PR for SA review; Renovate handles SDKs. Code calls vendors only via an adapter.'],
+  ['deploy', 'Thứ tự triển khai một tính năng ra sao?', 'What is the deployment order for a feature?',
+   'Hạ tầng/gateway → backend (provider trước consumer) → web và stonehub-web → mobile (bật feature flag). Mobile luôn qua G4 trước khi nộp store; nếu lỗi sau khi lên store, tắt flag trước rồi mới sửa.',
+   'Infrastructure/gateway → backend (providers before consumers) → web and stonehub-web → mobile (behind a feature flag). Mobile always passes G4 before store submission; if a defect appears after release, switch the flag off first, then fix.'],
+  ['deploy', 'Trạng thái unit được cập nhật thế nào?', 'How is unit status updated?',
+   'PR có nhãn unit-complete được merge → done (kèm PR, commit, kết quả scenario). Deploy staging (mobile: bản build nội bộ) → verified. QA/SA chạy set-unit-status → integrated. Deploy production (mobile: lên store) → released. Mọi trạng thái được ghi lên nhánh delivery-status của product-specs. Pipeline aggregate cập nhật Boards, Wiki và tạo task G3.5 khi đủ điều kiện.',
+   'A merged PR labelled unit-complete → done (with PR, commit, scenario results). Staging deploy (mobile: internal build) → verified. QA/SA run set-unit-status → integrated. Production deploy (mobile: store release) → released. All status is written to the delivery-status branch of product-specs. The aggregate pipeline updates Boards and the Wiki and creates the G3.5 task when ready.']
+];
+
+const CONTACTS = [
+  { vi: 'Product Owner', en: 'Product Owner', v: '<cập nhật / to be assigned>' },
+  { vi: 'Solution Architect (chủ contract)', en: 'Solution Architect (contract owner)', v: '<cập nhật / to be assigned>' },
+  { vi: 'QA Lead', en: 'QA Lead', v: '<cập nhật / to be assigned>' },
+  { vi: 'Người phụ trách tài liệu', en: 'Documentation owner', v: 'Long Lê — longle@dragoncapital.com' }
+];
+
+const LINKS = [
+  { vi: 'AI-DLC Workflows (GitHub)', en: 'AI-DLC Workflows (GitHub)', href: 'https://github.com/awslabs/aidlc-workflows' },
+  { vi: 'Phases and Stages', en: 'Phases and Stages', href: 'https://github.com/awslabs/aidlc-workflows/blob/main/docs/guide/04-phases-and-stages.md' },
+  { vi: 'Artifacts Reference', en: 'Artifacts Reference', href: 'https://github.com/awslabs/aidlc-workflows/blob/main/docs/guide/14-artifacts-reference.md' },
+  { vi: 'Knowledge & Rules', en: 'Knowledge & Rules', href: 'https://github.com/awslabs/aidlc-workflows/blob/main/docs/guide/08-knowledge.md' },
+  { vi: 'Repo product-specs (Azure Repos)', en: 'product-specs repo (Azure Repos)', href: '#' }
+];
+
+/* =====================================================================
+   MERMAID DEFINITIONS (per language)
+   ===================================================================== */
+const MMD = {
+  lifecycle: {
+    vi: `%%{init: {'themeVariables': {'fontSize': '16px'}, 'flowchart': {'nodeSpacing': 40, 'rankSpacing': 45}}}%%
+flowchart TB
+  subgraph R1[" "]
+    direction LR
+    P0["0 · Initialization<br/>tạo intent, quét workspace"] -->|"tự động"| P1["1 · Ideation<br/>ý định, khả thi, phạm vi"] -->|"VG1"| P2a["2 · Inception A<br/>requirements, stories<br/>(greenfield: không RE)"]
+  end
+  subgraph R2[" "]
+    direction LR
+    P2b["2 · Inception B<br/>domain design, units,<br/>contracts, bolt plan"] -->|"G2 · contract freeze"| P3["3 · Construction<br/>mỗi unit · mỗi repo · 3.1 → 3.5"] -->|"G3 · mỗi PR"| P3b["3.6 Build &amp; Test<br/>tích hợp toàn chuỗi"]
+  end
+  subgraph R3[" "]
+    direction LR
+    UAT["UAT"] -->|"G4 · PO"| P4["4 · Operation<br/>deploy, quan sát, runbook"] -->|"G5 · phát hành"| DONE(["Living spec cập nhật"])
+  end
+  R1 -->|"G1 · PO + BA"| R2
+  R2 -->|"G3.5 · E2E staging"| R3
+  classDef p0 fill:#ede9fe,stroke:#7c3aed,color:#1e1b4b
+  classDef p1 fill:#d1fae5,stroke:#059669,color:#064e3b
+  classDef p2 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef p3 fill:#fef3c7,stroke:#d97706,color:#78350f
+  classDef p4 fill:#ffe4e6,stroke:#e11d48,color:#881337
+  class P0 p0
+  class P1 p1
+  class P2a,P2b p2
+  class P3,P3b p3
+  class UAT,P4,DONE p4
+  style R1 fill:#f8fafc,stroke:#e2e8f0
+  style R2 fill:#f8fafc,stroke:#e2e8f0
+  style R3 fill:#f8fafc,stroke:#e2e8f0`,
+    en: `%%{init: {'themeVariables': {'fontSize': '16px'}, 'flowchart': {'nodeSpacing': 40, 'rankSpacing': 45}}}%%
+flowchart TB
+  subgraph R1[" "]
+    direction LR
+    P0["0 · Initialization<br/>create intent, scan workspace"] -->|"auto"| P1["1 · Ideation<br/>intent, feasibility, scope"] -->|"VG1"| P2a["2 · Inception A<br/>requirements, stories<br/>(greenfield: no RE)"]
+  end
+  subgraph R2[" "]
+    direction LR
+    P2b["2 · Inception B<br/>domain design, units,<br/>contracts, bolt plan"] -->|"G2 · contract freeze"| P3["3 · Construction<br/>per unit · per repo · 3.1 → 3.5"] -->|"G3 · every PR"| P3b["3.6 Build &amp; Test<br/>whole-chain integration"]
+  end
+  subgraph R3[" "]
+    direction LR
+    UAT["UAT"] -->|"G4 · PO"| P4["4 · Operation<br/>deploy, observe, runbooks"] -->|"G5 · release"| DONE(["Living spec updated"])
+  end
+  R1 -->|"G1 · PO + BA"| R2
+  R2 -->|"G3.5 · E2E staging"| R3
+  classDef p0 fill:#ede9fe,stroke:#7c3aed,color:#1e1b4b
+  classDef p1 fill:#d1fae5,stroke:#059669,color:#064e3b
+  classDef p2 fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef p3 fill:#fef3c7,stroke:#d97706,color:#78350f
+  classDef p4 fill:#ffe4e6,stroke:#e11d48,color:#881337
+  class P0 p0
+  class P1 p1
+  class P2a,P2b p2
+  class P3,P3b p3
+  class UAT,P4,DONE p4
+  style R1 fill:#f8fafc,stroke:#e2e8f0
+  style R2 fill:#f8fafc,stroke:#e2e8f0
+  style R3 fill:#f8fafc,stroke:#e2e8f0`
+  },
+  repos: {
+    vi: `flowchart TB
+  PS["<b>product-specs</b> · nhánh main<br/>specs · contracts · units.yaml · aidlc/"]
+  CODE["<b>Repo code</b><br/>backend (monorepo) · web-app · stonehub-web · mobile-app"]
+  KB["codekb/&lt;repo&gt;<br/>(trong product-specs/aidlc)"]
+  DS["<b>product-specs</b> · nhánh delivery-status<br/>(orphan, chỉ pipeline ghi)"]
+  BW["Azure Boards + Wiki"]
+  PS -->|"tag spec + contracts (CI sync)"| CODE
+  CODE -.->|"Reverse Engineering (từ release 1)"| KB
+  CODE -->|"pipeline: done / verified / released"| DS
+  DS -->|"aggregate"| BW
+  classDef spec fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef code fill:#fef3c7,stroke:#d97706,color:#78350f
+  classDef stat fill:#d1fae5,stroke:#059669,color:#064e3b
+  class PS,KB spec
+  class CODE code
+  class DS,BW stat`,
+    en: `flowchart TB
+  PS["<b>product-specs</b> · main branch<br/>specs · contracts · units.yaml · aidlc/"]
+  CODE["<b>Code repos</b><br/>backend (monorepo) · web-app · stonehub-web · mobile-app"]
+  KB["codekb/&lt;repo&gt;<br/>(in product-specs/aidlc)"]
+  DS["<b>product-specs</b> · delivery-status branch<br/>(orphan, pipelines only)"]
+  BW["Azure Boards + Wiki"]
+  PS -->|"spec tag + contracts (CI sync)"| CODE
+  CODE -.->|"Reverse Engineering (from release 1)"| KB
+  CODE -->|"pipeline: done / verified / released"| DS
+  DS -->|"aggregate"| BW
+  classDef spec fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef code fill:#fef3c7,stroke:#d97706,color:#78350f
+  classDef stat fill:#d1fae5,stroke:#059669,color:#064e3b
+  class PS,KB spec
+  class CODE code
+  class DS,BW stat`
+  },
+  status: {
+    vi: `stateDiagram-v2
+  direction TB
+  [*] --> planned
+  planned --> in_progress: bắt đầu
+  in_progress --> done: PR unit-complete merge
+  done --> verified: deploy staging
+  verified --> integrated: G3.5 (QA/SA)
+  integrated --> released: deploy production
+  released --> [*]
+  in_progress --> blocked: contract đổi
+  blocked --> in_progress: cập nhật xong
+  verified --> done: G4 fail (lùi)`,
+    en: `stateDiagram-v2
+  direction TB
+  [*] --> planned
+  planned --> in_progress: start
+  in_progress --> done: unit-complete PR merged
+  done --> verified: staging deploy
+  verified --> integrated: G3.5 (QA/SA)
+  integrated --> released: production deploy
+  released --> [*]
+  in_progress --> blocked: contract changed
+  blocked --> in_progress: updated
+  verified --> done: G4 fail (roll back)`
+  }
+};
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $ = (id) => document.getElementById(id);
+const t = (key) => (UI[key] ? UI[key][LANG] : key);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const norm = (s) => String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+function highlight(text, q) {
+  const safe = esc(text);
+  if (!q) return safe;
+  // Normalise char-by-char so indices stay aligned with the original text (diacritic-insensitive)
+  const chars = Array.from(String(text));
+  const nChars = chars.map(ch => { const n = norm(ch); return n.length === 1 ? n : ch.toLowerCase(); });
+  const nq = norm(q);
+  const idx = nChars.join('').indexOf(nq);
+  if (idx < 0 || nChars.join('').length !== chars.length) return safe;
+  const len = Array.from(nq).length;
+  return esc(chars.slice(0, idx).join('')) + '<mark>' + esc(chars.slice(idx, idx + len).join('')) + '</mark>' + esc(chars.slice(idx + len).join(''));
+}
+function list(items, cls = '') {
+  return '<ul class="space-y-1.5 ' + cls + '">' + items.map(i => '<li class="flex gap-2"><span class="text-brand-600 mt-0.5">•</span><span>' + esc(i) + '</span></li>').join('') + '</ul>';
+}
+
+/* =====================================================================
+   RENDERERS
+   ===================================================================== */
+function renderStatic() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.getAttribute('data-i18n')); });
+  $('glossSearch').placeholder = t('s4.search');
+  $('faqSearch').placeholder = t('s5.search');
+  document.documentElement.lang = LANG;
+  ['vi', 'en'].forEach(l => {
+    const b = $('btn-' + l);
+    b.className = 'lang-btn px-3 py-1.5 rounded-md ' + (LANG === l ? 'bg-brand-700 text-white' : 'text-slate-600 hover:bg-slate-100');
+    b.setAttribute('aria-pressed', LANG === l);
+  });
+}
+
+function renderHero() {
+  $('heroStats').innerHTML = HERO_STATS.map(s =>
+    '<div class="rounded-xl bg-white/10 ring-1 ring-white/15 p-4"><div class="text-3xl font-extrabold">' + s.n + '</div><div class="text-sm text-brand-100 mt-1">' + esc(s[LANG]) + '</div></div>').join('');
+}
+
+function renderPrinciples() {
+  $('principles').innerHTML = PRINCIPLES.map(p => {
+    const [h, d] = p[LANG];
+    return '<div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm"><div class="text-2xl">' + p.icon + '</div><h3 class="mt-2 font-semibold">' + esc(h) + '</h3><p class="mt-1 text-sm text-slate-600 leading-relaxed">' + esc(d) + '</p></div>';
+  }).join('');
+}
+
+function renderPhaseCards() {
+  $('phaseCards').innerHTML = PHASES.map(p => {
+    const d = p[LANG];
+    return '<button onclick="selectPhase(\'' + p.id + '\', true)" class="h-full w-full flex flex-col justify-start items-stretch text-left bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition">' +
+      '<div class="h-1.5 w-full shrink-0 bg-gradient-to-r ' + p.color + '"></div><div class="p-5 flex-1">' +
+      '<div class="flex items-center gap-2"><span class="w-7 h-7 rounded-full bg-gradient-to-br ' + p.color + ' text-white text-sm font-bold grid place-items-center">' + p.num + '</span>' +
+      '<span class="font-semibold">' + esc(d.name) + '</span></div>' +
+      '<p class="text-xs font-semibold text-slate-500 mt-2 uppercase tracking-wide">' + esc(d.tag) + '</p>' +
+      '<p class="mt-2 text-sm text-slate-600 leading-relaxed">' + esc(d.desc) + '</p></div></button>';
+  }).join('');
+}
+
+let currentPhase = 'p2';
+function selectPhase(id, scroll) {
+  currentPhase = id;
+  renderPhaseTabs();
+  renderPhaseDetail();
+  if (scroll) document.getElementById('framework').scrollIntoView({ behavior: 'smooth' });
+}
+function renderPhaseTabs() {
+  $('phaseTabs').innerHTML = PHASES.map(p =>
+    '<button onclick="selectPhase(\'' + p.id + '\')" class="phase-tab px-4 py-2 rounded-lg border border-slate-300 bg-white text-sm font-semibold hover:border-brand-600 ' + (p.id === currentPhase ? 'active' : '') + '">' + p.num + ' · ' + esc(p[LANG].name) + '</button>').join('');
+}
+function renderPhaseDetail() {
+  const p = PHASES.find(x => x.id === currentPhase);
+  const d = p[LANG];
+  const box = (titleKey, items, icon) =>
+    '<div class="bg-slate-50 rounded-xl p-4 border border-slate-200"><h4 class="text-sm font-semibold text-slate-800 flex items-center gap-2"><span>' + icon + '</span>' + esc(t(titleKey)) + '</h4><div class="mt-2 text-sm text-slate-700">' + list(items) + '</div></div>';
+  $('phaseDetail').innerHTML =
+    '<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden fade-in">' +
+    '<div class="bg-gradient-to-r ' + p.color + ' text-white px-6 py-5 flex flex-wrap justify-between items-center gap-3">' +
+    '<div><div class="text-xs uppercase tracking-wider opacity-90">Phase ' + p.num + ' · ' + esc(d.tag) + '</div><div class="text-2xl font-bold">' + esc(d.name) + '</div></div>' +
+    '<div class="text-sm bg-white/15 rounded-lg px-3 py-1.5"><span class="opacity-80">' + esc(t('p.owner')) + ':</span> <b>' + esc(d.owner) + '</b></div></div>' +
+    '<div class="p-6"><p class="text-slate-600">' + esc(d.desc) + '</p>' +
+    '<div class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-4">' +
+    box('p.stages', d.stages, '🧩') + box('p.inputs', d.inputs, '📥') + box('p.outputs', d.outputs, '📤') +
+    box('p.gate', d.gate, '🚦') + box('p.tools', d.tools, '🧰') +
+    '</div><p class="mt-3 text-xs text-slate-500">* ' + (LANG === 'vi' ? 'stage có điều kiện, tùy profile/scope' : 'conditional stage, depends on profile/scope') + '</p></div></div>';
+}
+
+function renderGates() {
+  $('gatesBody').innerHTML = GATES.map(g => {
+    const [w, a, c] = g[LANG];
+    return '<tr><td class="py-3 pr-3 align-top"><span class="inline-block px-2 py-0.5 rounded-md bg-brand-700 text-white font-bold text-xs">' + g.g + '</span></td>' +
+      '<td class="py-3 pr-3 align-top text-slate-700">' + esc(w) + '</td><td class="py-3 pr-3 align-top font-medium">' + esc(a) + '</td><td class="py-3 align-top text-slate-600">' + esc(c) + '</td></tr>';
+  }).join('');
+}
+
+function renderTiers() {
+  $('tiers').innerHTML = TIERS.map(x => {
+    const [d, p] = x[LANG];
+    return '<div class="rounded-xl border p-4 ' + x.cls + '"><div class="flex items-center gap-3"><span class="text-2xl font-extrabold">' + x.t + '</span><span class="text-sm font-medium">' + esc(d) + '</span></div><div class="mt-2 text-xs font-semibold opacity-80">' + esc(p) + '</div></div>';
+  }).join('');
+}
+
+let currentRole = 'po';
+function selectRole(id) { currentRole = id; renderRoleTabs(); renderRoleDetail(); }
+function renderRoleTabs() {
+  $('roleTabs').innerHTML = ROLES.map(r =>
+    '<button role="tab" aria-selected="' + (r.id === currentRole) + '" onclick="selectRole(\'' + r.id + '\')" class="role-tab px-4 py-2 rounded-full border border-slate-300 bg-white text-sm font-semibold hover:border-brand-600 transition ' + (r.id === currentRole ? 'active' : '') + '"><span class="mr-1">' + r.icon + '</span>' + esc(r.short) + '</button>').join('');
+}
+function renderRoleDetail() {
+  const r = ROLES.find(x => x.id === currentRole);
+  const d = r[LANG];
+  const phases = Object.keys(d.checklist);
+  const checklist = phases.map((ph, i) =>
+    '<div class="relative pl-8 pb-5 last:pb-0">' +
+    '<span class="absolute left-0 top-0 w-6 h-6 rounded-full bg-brand-700 text-white text-xs font-bold grid place-items-center">' + (i + 1) + '</span>' +
+    (i < phases.length - 1 ? '<span class="absolute left-[11px] top-6 bottom-0 w-0.5 bg-brand-200"></span>' : '') +
+    '<div class="font-semibold text-sm">' + esc(ph) + '</div>' +
+    '<ul class="mt-1.5 space-y-1">' + d.checklist[ph].map(c => '<li class="flex gap-2 text-sm text-slate-700"><input type="checkbox" class="mt-1 accent-brand-700" aria-label="' + esc(c) + '"><span>' + esc(c) + '</span></li>').join('') + '</ul></div>').join('');
+  $('roleDetail').innerHTML =
+    '<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 fade-in">' +
+    '<div class="flex flex-wrap items-center justify-between gap-3"><div class="flex items-center gap-3"><span class="text-3xl">' + r.icon + '</span><div><div class="text-xl font-bold">' + esc(d.name) + '</div>' +
+    '<div class="text-sm text-slate-500">' + esc(t('r.gates')) + ': ' + d.gates.map(g => '<span class="inline-block ml-1 px-2 py-0.5 rounded bg-brand-50 text-brand-800 text-xs font-semibold">' + esc(g) + '</span>').join('') + '</div></div></div></div>' +
+    '<div class="mt-6 grid lg:grid-cols-3 gap-6">' +
+    '<div class="space-y-5"><div><h4 class="font-semibold text-slate-800">🎯 ' + esc(t('r.resp')) + '</h4><div class="mt-2 text-sm text-slate-700">' + list(d.resp) + '</div></div>' +
+    '<div class="bg-brand-50 rounded-xl p-4 border border-brand-100"><h4 class="font-semibold text-brand-900">🤖 ' + esc(t('r.ai')) + '</h4><p class="mt-1 text-sm text-brand-900/80">' + esc(d.ai) + '</p></div></div>' +
+    '<div><h4 class="font-semibold text-slate-800">🗂️ ' + esc(t('r.checklist')) + '</h4><div class="mt-3">' + checklist + '</div></div>' +
+    '<div class="space-y-5"><div class="bg-emerald-50 rounded-xl p-4 border border-emerald-200"><h4 class="font-semibold text-emerald-900">✅ ' + esc(t('r.handoff')) + '</h4><div class="mt-2 text-sm text-emerald-900">' + list(d.handoff) + '</div></div>' +
+    '<div class="bg-rose-50 rounded-xl p-4 border border-rose-200"><h4 class="font-semibold text-rose-900">⛔ ' + esc(t('r.never')) + '</h4><div class="mt-2 text-sm text-rose-900">' + list(d.never) + '</div></div></div>' +
+    '</div></div>';
+}
+
+function renderRaci() {
+  $('raciHead').innerHTML = '<tr><th class="py-2 pr-3">' + esc(t('t.step')) + '</th>' + RACI.cols.map(c => '<th class="py-2 px-2 text-center">' + c + '</th>').join('') + '</tr>';
+  const color = (v) => v.startsWith('A') ? 'bg-brand-700 text-white' : v === 'R' ? 'bg-brand-100 text-brand-900' : v === 'C' ? 'bg-amber-100 text-amber-900' : 'bg-slate-100 text-slate-600';
+  $('raciBody').innerHTML = RACI.rows.map(r =>
+    '<tr><td class="py-2.5 pr-3 font-medium text-slate-700">' + esc(r[LANG]) + '</td>' +
+    r.v.map(v => '<td class="py-2.5 px-2 text-center"><span class="inline-block min-w-[2.2rem] px-1.5 py-0.5 rounded text-xs font-bold ' + color(v) + '">' + esc(v) + '</span></td>').join('') + '</tr>').join('');
+}
+
+let glossCat = 'all';
+function renderGlossChips() {
+  const chips = [{ id: 'all', vi: t('c.all'), en: t('c.all'), cls: '' }].concat(GLOSS_CATS);
+  $('glossChips').innerHTML = chips.map(c =>
+    '<button onclick="glossCat=\'' + c.id + '\';renderGlossChips();renderGlossary()" class="chip px-3 py-1.5 rounded-full border border-slate-300 bg-white text-xs font-semibold hover:border-brand-600 ' + (glossCat === c.id ? 'active' : '') + '">' + esc(c[LANG]) + '</button>').join('');
+}
+function renderGlossary() {
+  const q = $('glossSearch').value.trim();
+  const nq = norm(q);
+  const items = GLOSSARY.filter(([term, cat, full, vi, en]) => {
+    if (glossCat !== 'all' && cat !== glossCat) return false;
+    if (!nq) return true;
+    return norm(term + ' ' + full + ' ' + vi + ' ' + en).includes(nq);
+  });
+  $('glossCount').textContent = items.length + ' / ' + GLOSSARY.length + ' ' + t('c.results');
+  if (!items.length) { $('glossGrid').innerHTML = '<p class="text-slate-500 col-span-full">' + esc(t('c.none')) + '</p>'; return; }
+  $('glossGrid').innerHTML = items.map(([term, cat, full, vi, en]) => {
+    const c = GLOSS_CATS.find(x => x.id === cat);
+    const def = LANG === 'vi' ? vi : en;
+    return '<div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition">' +
+      '<div class="flex items-start justify-between gap-2"><div class="font-bold text-slate-900">' + highlight(term, q) + '</div>' +
+      '<span class="shrink-0 px-2 py-0.5 rounded-full text-[11px] font-semibold ' + c.cls + '">' + esc(c[LANG]) + '</span></div>' +
+      (full ? '<div class="text-xs text-brand-700 font-medium mt-0.5">' + highlight(full, q) + '</div>' : '') +
+      '<p class="mt-2 text-sm text-slate-600 leading-relaxed">' + highlight(def, q) + '</p></div>';
+  }).join('');
+}
+
+let faqCat = 'all';
+function renderFaqChips() {
+  const chips = [{ id: 'all', vi: t('c.all'), en: t('c.all') }].concat(FAQ_CATS);
+  $('faqChips').innerHTML = chips.map(c =>
+    '<button onclick="faqCat=\'' + c.id + '\';renderFaqChips();renderFaq()" class="chip px-3 py-1.5 rounded-full border border-slate-300 bg-white text-xs font-semibold hover:border-brand-600 ' + (faqCat === c.id ? 'active' : '') + '">' + esc(c[LANG]) + '</button>').join('');
+}
+function renderFaq() {
+  const q = $('faqSearch').value.trim();
+  const nq = norm(q);
+  const items = FAQ.filter(([cat, qvi, qen, avi, aen]) => {
+    if (faqCat !== 'all' && cat !== faqCat) return false;
+    if (!nq) return true;
+    return norm(qvi + ' ' + qen + ' ' + avi + ' ' + aen).includes(nq);
+  });
+  $('faqCount').textContent = items.length + ' / ' + FAQ.length + ' ' + t('c.results');
+  if (!items.length) { $('faqList').innerHTML = '<p class="text-slate-500">' + esc(t('c.none')) + '</p>'; return; }
+  $('faqList').innerHTML = items.map(([cat, qvi, qen, avi, aen], i) => {
+    const c = FAQ_CATS.find(x => x.id === cat);
+    const qq = LANG === 'vi' ? qvi : qen;
+    const aa = LANG === 'vi' ? avi : aen;
+    return '<details class="faq-item bg-white rounded-xl border border-slate-200 shadow-sm group"' + (nq && i < 3 ? ' open' : '') + '>' +
+      '<summary class="cursor-pointer list-none flex items-start justify-between gap-4 px-5 py-4">' +
+      '<div><span class="inline-block mb-1 px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px] font-semibold">' + esc(c[LANG]) + '</span>' +
+      '<div class="font-semibold text-slate-900">' + highlight(qq, q) + '</div></div>' +
+      '<svg class="chev w-5 h-5 mt-1 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>' +
+      '<div class="px-5 pb-5 -mt-1 text-sm text-slate-700 leading-relaxed">' + highlight(aa, q) + '</div></details>';
+  }).join('');
+}
+
+function renderFooter() {
+  $('contacts').innerHTML = CONTACTS.map(c => '<li><span class="text-brand-300">' + esc(c[LANG]) + ':</span> <span class="text-white">' + esc(c.v) + '</span></li>').join('');
+  $('links').innerHTML = LINKS.map(l => '<li><a class="hover:text-white underline-offset-2 hover:underline" href="' + l.href + '" target="_blank" rel="noopener">' + esc(l[LANG]) + ' ↗</a></li>').join('');
+  const d = new Date(LAST_UPDATED_ISO);
+  const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Ho_Chi_Minh', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })
+    .formatToParts(d).reduce((acc, p) => { acc[p.type] = p.value; return acc; }, {});
+  const stamp = LANG === 'vi'
+    ? parts.day + '/' + parts.month + '/' + parts.year + ' ' + parts.hour + ':' + parts.minute + ' (UTC+7)'
+    : parts.year + '-' + parts.month + '-' + parts.day + ' ' + parts.hour + ':' + parts.minute + ' (UTC+7)';
+  $('lastUpdated').textContent = t('f.updated') + ': ' + stamp + ' · ' + VERSION;
+}
+
+/* =====================================================================
+   MERMAID
+   ===================================================================== */
+let mermaidReady = false;
+let renderSeq = 0;
+// Google Fonts splits Inter into unicode-range subsets (latin, latin-ext, vietnamese).
+// The Vietnamese subset only downloads when such glyphs are used, so Mermaid could
+// measure labels with a fallback font and then draw them in Inter (wider) -> clipped.
+// Force-load every weight/subset Mermaid uses before rendering (max 3 s).
+const FONT_SAMPLE = 'Aa ăâđêôơư ạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ';
+function fontsReady() {
+  if (!document.fonts || !document.fonts.load) return Promise.resolve();
+  const loads = ['400', '500', '600', '700'].flatMap(w => ['14px', '16px'].map(sz => document.fonts.load(w + ' ' + sz + ' Inter', FONT_SAMPLE)));
+  const all = Promise.all(loads).then(() => document.fonts.ready).catch(() => {});
+  return Promise.race([all, new Promise(r => setTimeout(r, 3000))]);
+}
+// If a font arrives after the first render anyway, draw once more with correct widths.
+if (document.fonts && document.fonts.addEventListener) {
+  let refontTimer = null;
+  document.fonts.addEventListener('loadingdone', () => {
+    clearTimeout(refontTimer);
+    refontTimer = setTimeout(() => { if (mermaidReady) renderMermaid(); }, 150);
+  });
+}
+async function renderMermaid() {
+  if (!window.mermaid) {
+    ['mmd-lifecycle', 'mmd-repos', 'mmd-status'].forEach(id => { $(id).innerHTML = '<p class="text-sm text-slate-500">Mermaid.js could not be loaded (offline?).</p>'; });
+    return;
+  }
+  if (!mermaidReady) {
+    mermaid.initialize({
+      startOnLoad: false, securityLevel: 'loose', theme: 'base',
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+      state: { useMaxWidth: true },
+      themeVariables: { fontFamily: 'Inter, system-ui, sans-serif', fontSize: '14px', primaryColor: '#eef4ff', primaryBorderColor: '#2552e0', primaryTextColor: '#0f172a', lineColor: '#475569', edgeLabelBackground: '#ffffff' }
+    });
+    mermaidReady = true;
+  }
+  await fontsReady();
+  const seq = ++renderSeq;
+  for (const key of ['lifecycle', 'repos', 'status']) {
+    const el = $('mmd-' + key);
+    try {
+      const { svg } = await mermaid.render('svg-' + key + '-' + seq, MMD[key][LANG]);
+      if (seq !== renderSeq) return;
+      el.innerHTML = svg;
+    } catch (e) {
+      el.innerHTML = '<pre class="text-xs text-rose-700 whitespace-pre-wrap">' + esc(e.message || e) + '</pre>';
+    }
+  }
+}
+
+/* =====================================================================
+   LANGUAGE & INIT
+   ===================================================================== */
+function renderAll() {
+  renderStatic(); renderHero(); renderPrinciples(); renderPhaseCards(); renderPhaseTabs(); renderPhaseDetail();
+  renderGates(); renderTiers(); renderRoleTabs(); renderRoleDetail(); renderDevTeam(); renderRaci();
+  renderGlossChips(); renderGlossary(); renderFaqChips(); renderFaq(); renderFooter();
+  renderMermaid();
+}
+function setLang(l) {
+  if (l === LANG) return;
+  LANG = l;
+  try { localStorage.setItem('dx-aidlc-lang', l); } catch (e) {}
+  renderAll();
+}
+
+$('glossSearch').addEventListener('input', renderGlossary);
+$('faqSearch').addEventListener('input', renderFaq);
+
+// Scroll-spy for nav
+const sections = ['overview', 'framework', 'roles', 'glossary', 'faq'].map(id => document.getElementById(id));
+const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id));
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => spy.observe(s));
+
+renderAll();
+</script>
+</body>
+</html>
